@@ -20,24 +20,24 @@
 
 ## LiveServerInfo (server island)
 
-| Field | Value |
-|---|---|
-| Location | `src/components/LiveServerInfo.astro` |
-| Used on | `/about/` (a prerendered page) |
-| Directive | `server:defer` |
+| Field               | Value                                                                                                                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Location            | `src/components/LiveServerInfo.astro`                                                                                                                                                      |
+| Used on             | `/about/` (a prerendered page)                                                                                                                                                             |
+| Directive           | `server:defer`                                                                                                                                                                             |
 | Why a server island | The page is cached and served statically; only this fragment needs per-request data (server time, uptime). A client island would pay a JS bundle to display what the server already knows. |
-| Client JS cost | No framework runtime. A small inline loader script fetches the fragment from `/_server-islands/` and injects it (one extra request per island). |
-| Build impact | Adding a server island switches the build output to the hybrid layout (`dist/client/` + `dist/server/`) even for otherwise static sites. |
-| No-JS behavior | The island placeholder stays empty - the fragment requires the loader script. Static content around it is unaffected. |
+| Client JS cost      | No framework runtime. A small inline loader script fetches the fragment from `/_server-islands/` and injects it (one extra request per island).                                            |
+| Build impact        | Adding a server island switches the build output to the hybrid layout (`dist/client/` + `dist/server/`) even for otherwise static sites.                                                   |
+| No-JS behavior      | The island placeholder stays empty - the fragment requires the loader script. Static content around it is unaffected.                                                                      |
 
 ## Client island vs server island
 
-| | Client island | Server island |
-|---|---|---|
-| Dynamism source | Browser behavior (state, events) | Server execution per request |
-| Ships | Framework JS + component JS | Nothing (loader fetches rendered HTML) |
-| Directive | `client:*` | `server:defer` |
-| Use when | Interaction state is required | Request-dependent content inside a cached page |
+|                 | Client island                    | Server island                                  |
+| --------------- | -------------------------------- | ---------------------------------------------- |
+| Dynamism source | Browser behavior (state, events) | Server execution per request                   |
+| Ships           | Framework JS + component JS      | Nothing (loader fetches rendered HTML)         |
+| Directive       | `client:*`                       | `server:defer`                                 |
+| Use when        | Interaction state is required    | Request-dependent content inside a cached page |
 
 ## Budget
 
