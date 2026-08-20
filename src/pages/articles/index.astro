@@ -3,12 +3,24 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import Pagination from "../../components/Pagination.astro";
+import ArticleSearch from "../../components/islands/ArticleSearch";
+import type { SearchableArticle } from "../../components/islands/ArticleSearch";
 import { isPublished, sortByPubDateDesc } from "../../lib/content";
 import { paginate } from "../../lib/paginate";
 
 const allArticles = await getCollection("articles", isPublished);
 const sorted = sortByPubDateDesc(allArticles);
 const page = paginate(sorted, 4, 1);
+
+// The island receives the full article list as serialized props.
+// This embeds a small JSON payload into the HTML - acceptable at this
+// size, and the explicit cost of client-side filtering.
+const searchable: SearchableArticle[] = sorted.map((article) => ({
+  id: article.id,
+  title: article.data.title,
+  description: article.data.description,
+  topics: article.data.topics.map((ref) => ref.id),
+}));
 ---
 
 <BaseLayout
@@ -19,6 +31,13 @@ const page = paginate(sorted, 4, 1);
     <h1>Articles</h1>
     <p>Concept-first articles from the astro-learning-lab curriculum.</p>
   </div>
+
+  <!--
+    The only client island on this page. Hydrates on idle (see the
+    rationale recorded inside the component). Without JavaScript the
+    input renders inert and the static grid below still works.
+  -->
+  <ArticleSearch client:idle articles={searchable} />
 
   <div class="grid">
     {page.items.map((article) => <ArticleCard article={article} />)}
@@ -45,5 +64,76 @@ const page = paginate(sorted, 4, 1);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
     gap: 1rem;
+    margin-top: 1.5rem;
+  }
+</style>
+
+<style is:global>
+  /* Island content is rendered by React; scoped Astro styles cannot
+     reach it. These styles target the island's own class names. */
+  .search {
+    max-width: var(--prose-width);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .search input {
+    font: inherit;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card-bg);
+    color: var(--fg);
+  }
+
+  .search input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .search .hint,
+  .search .empty {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+  }
+
+  .search .results {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .search .results a {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--fg);
+    background: var(--card-bg);
+  }
+
+  .search .results a:hover {
+    border-color: var(--accent);
+  }
+
+  .search .results .title {
+    font-weight: 600;
+  }
+
+  .search .results .description {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
   }
 </style>
