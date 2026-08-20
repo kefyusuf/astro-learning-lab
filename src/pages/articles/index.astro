@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard, {
+  type ArticleCardEntry,
+} from "../../components/ArticleCard.astro";
+import Pagination from "../../components/Pagination.astro";
+import { getSortedArticles, type Article } from "../../data/articles";
+import { paginate } from "../../lib/paginate";
+
+const sorted = getSortedArticles();
+const page = paginate(sorted, 4, 1);
+
+// Demo data uses a flat shape; collections (Phase 4) produce {slug, data}.
+const toCardEntry = (article: Article): ArticleCardEntry => ({
+  slug: article.slug,
+  data: {
+    title: article.title,
+    description: article.description,
+    pubDate: article.pubDate,
+  },
+});
+---
+
+<BaseLayout
+  title="Articles · astro-learning-lab"
+  description="Articles about Astro - components, rendering, islands and content architecture."
+>
+  <div class="page-head">
+    <h1>Articles</h1>
+    <p>Concept-first articles from the astro-learning-lab curriculum.</p>
+  </div>
+
+  <div class="grid">
+    {
+      page.items.map((article) => (
+        <ArticleCard article={toCardEntry(article)} />
+      ))
+    }
+  </div>
+
+  <Pagination
+    baseUrl="/articles"
+    pageNumber={page.pageNumber}
+    totalPages={page.totalPages}
+  />
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 2.5rem 1.5rem;
+    max-width: var(--prose-width);
+  }
+
+  .page-head p {
+    color: var(--fg-muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+</style>

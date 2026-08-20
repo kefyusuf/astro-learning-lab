@@ -1,0 +1,61 @@
+---
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { getArticle, getSortedArticles } from "../../data/articles";
+
+export function getStaticPaths() {
+  return getSortedArticles().map((article) => ({
+    params: { slug: article.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const article = getArticle(slug ?? "");
+
+if (!article) {
+  return Astro.redirect("/404");
+}
+---
+
+<ArticleLayout
+  title={article.title}
+  description={article.description}
+  pubDate={article.pubDate}
+  updatedDate={article.updatedDate}
+>
+  <!-- Demo body is pre-built HTML. Phase 4 renders real Markdown instead. -->
+  <Fragment set:html={article.bodyHtml} />
+
+  <aside class="topics">
+    <h2>Topics</h2>
+    <ul>
+      {
+        article.topicSlugs.map((topicSlug) => (
+          <li>
+            <a href={`/topics/${topicSlug}/`}>{topicSlug}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </aside>
+</ArticleLayout>
+
+<style>
+  .topics {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .topics h2 {
+    font-size: 1rem;
+    color: var(--fg-muted);
+  }
+
+  .topics ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.75rem;
+  }
+</style>

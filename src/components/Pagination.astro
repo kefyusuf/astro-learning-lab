@@ -1,0 +1,47 @@
+---
+interface Props {
+  /** Base path without trailing slash, e.g. "/articles" */
+  baseUrl: string;
+  pageNumber: number;
+  totalPages: number;
+}
+
+const { baseUrl, pageNumber, totalPages } = Astro.props;
+
+const hrefFor = (n: number) =>
+  n === 1 ? `${baseUrl}/` : `${baseUrl}/page/${n}/`;
+---
+
+{
+  totalPages > 1 && (
+    <nav class="pagination" aria-label="Pagination">
+      {pageNumber > 1 ? (
+        <a href={hrefFor(pageNumber - 1)}>← Previous</a>
+      ) : (
+        <span />
+      )}
+      <span class="status">
+        Page {pageNumber} of {totalPages}
+      </span>
+      {pageNumber < totalPages ? (
+        <a href={hrefFor(pageNumber + 1)}>Next →</a>
+      ) : (
+        <span />
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 2rem;
+  }
+
+  .status {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+  }
+</style>

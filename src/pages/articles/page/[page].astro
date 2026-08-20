@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ArticleCard, {
+  type ArticleCardEntry,
+} from "../../../components/ArticleCard.astro";
+import Pagination from "../../../components/Pagination.astro";
+import { getSortedArticles, type Article } from "../../../data/articles";
+import { paginate } from "../../../lib/paginate";
+
+export function getStaticPaths() {
+  const sorted = getSortedArticles();
+  const pageSize = 4;
+  const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
+
+  // Page 1 lives at /articles/ (index route). This route owns pages 2..N.
+  return Array.from({ length: totalPages - 1 }, (_, index) => ({
+    params: { page: String(index + 2) },
+  }));
+}
+
+const { page } = Astro.params;
+const pageNumber = Number(page);
+
+const sorted = getSortedArticles();
+const result = paginate(sorted, 4, pageNumber);
+
+const toCardEntry = (article: Article): ArticleCardEntry => ({
+  slug: article.slug,
+  data: {
+    title: article.title,
+    description: article.description,
+    pubDate: article.pubDate,
+  },
+});
+---
+
+<BaseLayout
+  title={`Articles, page ${pageNumber} · astro-learning-lab`}
+  description="Articles about Astro - components, rendering, islands and content architecture."
+>
+  <div class="page-head">
+    <h1>Articles</h1>
+    <p>Concept-first articles from the astro-learning-lab curriculum.</p>
+  </div>
+
+  <div class="grid">
+    {
+      result.items.map((article) => (
+        <ArticleCard article={toCardEntry(article)} />
+      ))
+    }
+  </div>
+
+  <Pagination
+    baseUrl="/articles"
+    pageNumber={result.pageNumber}
+    totalPages={result.totalPages}
+  />
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 2.5rem 1.5rem;
+    max-width: var(--prose-width);
+  }
+
+  .page-head p {
+    color: var(--fg-muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+</style>

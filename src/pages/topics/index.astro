@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicCard from "../../components/TopicCard.astro";
+import { topics, articles } from "../../data/articles";
+---
+
+<BaseLayout
+  title="Topics · astro-learning-lab"
+  description="Browse articles by topic - fundamentals, rendering, islands and content."
+>
+  <div class="page-head">
+    <h1>Topics</h1>
+    <p>Every article belongs to at least one topic.</p>
+  </div>
+
+  <div class="grid">
+    {
+      topics.map((topic) => (
+        <TopicCard
+          topic={{
+            ...topic,
+            count: articles.filter((article) =>
+              article.topicSlugs.includes(topic.slug),
+            ).length,
+          }}
+        />
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 2.5rem 1.5rem;
+    max-width: var(--prose-width);
+  }
+
+  .page-head p {
+    color: var(--fg-muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+</style>
