@@ -1,16 +1,19 @@
 // @ts-check
-import { defineConfig, memoryCache } from "astro/config";
-import mdx from "@astrojs/mdx";
-import react from "@astrojs/react";
-import node from "@astrojs/node";
-import sitemap from "@astrojs/sitemap";
+import { defineConfig, logHandlers, memoryCache } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import react from '@astrojs/react';
+import node from '@astrojs/node';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // The canonical origin of the site. Required later for sitemap,
-  // RSS and canonical URLs. Overridable via environment (Phase 13).
-  site: process.env.SITE_URL ?? "https://astro-learning-lab.example.com",
-  integrations: [mdx(), react(), sitemap()],
+	// The canonical origin of the site. Required later for sitemap,
+	// RSS and canonical URLs. Overridable via environment (Phase 13).
+	site: process.env.SITE_URL ?? 'https://astro-learning-lab.example.com',
+	integrations: [mdx(), react(), sitemap()],
+	// Stable in Astro 7: structured JSON logs for machines (CI, log
+	// collectors); humans keep the pretty default in local dev.
+	logger: process.env.CI ? logHandlers.json() : undefined,
   // output stays 'static' by default: every route is prerendered unless
   // it opts out with `export const prerender = false`. The adapter is
   // required to serve those on-demand routes (actions, endpoints).
