@@ -1,0 +1,11 @@
+{
+  // Minimal on purpose: the adapter generates the entrypoint and
+  // assets configuration at build time (wrangler config is optional
+  // since adapter v13). Only project-specific settings live here.
+  "name": "astro-learning-lab",
+  "compatibility_date": "2026-08-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+  },
+}

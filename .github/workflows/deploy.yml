@@ -1,0 +1,45 @@
+name: Deploy to Cloudflare Workers
+
+# Deploys only after CI passes, only from main.
+# Required repository secrets:
+#   CLOUDFLARE_API_TOKEN - Workers deploy permission
+#   CLOUDFLARE_ACCOUNT_ID
+# Set them under Settings → Secrets and variables → Actions.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build for Cloudflare Workers
+        run: pnpm build
+        env:
+          DEPLOY_TARGET: cloudflare
+          SITE_URL: ${{ vars.SITE_URL }}
+
+      - name: Deploy
+        run: pnpm exec wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
