@@ -1,0 +1,38 @@
+---
+// Frontmatter runs at BUILD time (static output). Nothing here
+// reaches the browser. `Astro` is a global with request/page context.
+const pageTitle = 'astro-learning-lab';
+const description =
+  'A developer knowledge platform built to learn Astro from zero - articles, guides and topics rendered to plain HTML.';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{pageTitle}</title>
+	</head>
+	<body>
+		<header>
+			<nav aria-label="Main">
+				<a href="/">astro-learning-lab</a>
+				<a href="/about/">About</a>
+			</nav>
+		</header>
+		<main>
+			<h1>Learn Astro by building a real content platform</h1>
+			<p>
+				This site is the living output of a phase-based Astro curriculum. Every
+				feature exists to exercise one Astro concept - rendering, islands,
+				content collections, server logic - and nothing more.
+			</p>
+			<p>Articles, guides and topics arrive in the next phases.</p>
+		</main>
+		<footer>
+			<p><small>Built with Astro - zero client JavaScript so far.</small></p>
+		</footer>
+	</body>
+</html>
