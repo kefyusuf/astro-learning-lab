@@ -1,0 +1,221 @@
+---
+import { actions, isInputError } from "astro:actions";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// The form page renders per request so it can read the action result
+// from the POST submission. Trade-off (documented in the Astro docs):
+// refreshing after a POST triggers the browser's resubmission dialog.
+// The production upgrade path is middleware + session persistence.
+export const prerender = false;
+
+const result = Astro.getActionResult(actions.feedback);
+const fieldErrors = isInputError(result?.error)
+  ? result.error.fields
+  : undefined;
+---
+
+<BaseLayout
+  title="Feedback · astro-learning-lab"
+  description="Send feedback about astro-learning-lab - report issues or suggest content."
+>
+  <div class="page">
+    <h1>Feedback</h1>
+    <p>
+      Found an error in an article? Want a topic covered? Tell us - the form is
+      validated on the server, never trusted from the client.
+    </p>
+
+    {
+      result?.data && (
+        <div class="banner success" role="status">
+          <p>Thanks! Your feedback was received.</p>
+        </div>
+      )
+    }
+
+    {
+      result?.error && !fieldErrors && (
+        <div class="banner error" role="alert">
+          <p>Something went wrong. Please try again.</p>
+        </div>
+      )
+    }
+
+    <form method="POST" action={actions.feedback} novalidate>
+      <div class="field">
+        <label for="name">Name (optional)</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          maxlength="80"
+          autocomplete="name"
+        />
+        {
+          fieldErrors?.name && (
+            <p class="error" id="name-error">
+              {fieldErrors.name}
+            </p>
+          )
+        }
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          aria-describedby={fieldErrors?.email ? "email-error" : undefined}
+          aria-invalid={fieldErrors?.email ? "true" : undefined}
+        />
+        {
+          fieldErrors?.email && (
+            <p class="error" id="email-error">
+              {fieldErrors.email}
+            </p>
+          )
+        }
+      </div>
+
+      <div class="field">
+        <label for="topic">Topic</label>
+        <select id="topic" name="topic">
+          <option value="general">General</option>
+          <option value="bug">Bug report</option>
+          <option value="content">Content suggestion</option>
+          <option value="other">Other</option>
+        </select>
+        {
+          fieldErrors?.topic && (
+            <p class="error" id="topic-error">
+              {fieldErrors.topic}
+            </p>
+          )
+        }
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          required
+          minlength="20"
+          maxlength="2000"
+          placeholder="At least 20 characters…"
+          aria-describedby={fieldErrors?.message ? "message-error" : undefined}
+          aria-invalid={fieldErrors?.message ? "true" : undefined}></textarea>
+        {
+          fieldErrors?.message && (
+            <p class="error" id="message-error">
+              {fieldErrors.message}
+            </p>
+          )
+        }
+      </div>
+
+      <button type="submit">Send feedback</button>
+    </form>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--prose-width);
+    padding-block: 2.5rem 1rem;
+  }
+
+  .banner {
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    margin-block: 1rem;
+  }
+
+  .banner.success {
+    background: #dcfce7;
+    color: #14532d;
+    border: 1px solid #22c55e;
+  }
+
+  .banner.error {
+    background: #fee2e2;
+    color: #7f1d1d;
+    border: 1px solid #ef4444;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    margin-top: 1.5rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font: inherit;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card-bg);
+    color: var(--fg);
+  }
+
+  input[aria-invalid="true"],
+  textarea[aria-invalid="true"] {
+    border-color: #ef4444;
+  }
+
+  .error {
+    margin: 0;
+    color: #b91c1c;
+    font-size: 0.88rem;
+  }
+
+  button {
+    align-self: flex-start;
+    font: inherit;
+    font-weight: 600;
+    padding: 0.6rem 1.3rem;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--accent-fg);
+    cursor: pointer;
+  }
+
+  button:hover {
+    filter: brightness(1.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .banner.success {
+      background: #052e16;
+      color: #bbf7d0;
+    }
+
+    .banner.error {
+      background: #450a0a;
+      color: #fecaca;
+    }
+
+    .error {
+      color: #f87171;
+    }
+  }
+</style>
