@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import { serializeJsonLd } from "../lib/serialize-json-ld";
 
 interface Props {
   title: string;
@@ -43,7 +44,7 @@ const jsonLd = {
 >
   <script
     type="application/ld+json"
-    set:html={JSON.stringify(jsonLd)}
+    set:html={serializeJsonLd(jsonLd)}
     slot="head"
   />
   <article class="prose">

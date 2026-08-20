@@ -6,18 +6,18 @@
 
 ## Measured facts (2026-08-21, Astro 7.2.4, uncompressed)
 
-| Metric | Value |
-|---|---|
-| Pages built | 19 |
-| Total shipped JS | **188.5 KB** (~60 KB gzipped), all of it the React island on `/articles` |
-| Pages with zero external JS | 18/19 (only `/articles*` loads framework JS) |
-| Pages with zero JS at all | 5 (404, guides ×3, status) |
-| FavoriteButton script | ~0.8 KB **inlined** per card page (no extra request, deduplicated) |
-| Server island loader | ~2 small inline scripts on `/about` (fetches one fragment) |
-| CSS | Inlined into HTML (no render-blocking external stylesheet, no extra request) |
-| Average HTML page | 10.6 KB (including inlined CSS) |
-| Fonts | **Zero downloads** - system font stack |
-| Images | favicon only |
+| Metric                      | Value                                                                        |
+| --------------------------- | ---------------------------------------------------------------------------- |
+| Pages built                 | 19                                                                           |
+| Total shipped JS            | **188.5 KB** (~60 KB gzipped), all of it the React island on `/articles`     |
+| Pages with zero external JS | 18/19 (only `/articles*` loads framework JS)                                 |
+| Pages with zero JS at all   | 5 (404, guides ×3, status)                                                   |
+| FavoriteButton script       | ~0.8 KB **inlined** per card page (no extra request, deduplicated)           |
+| Server island loader        | ~2 small inline scripts on `/about` (fetches one fragment)                   |
+| CSS                         | Inlined into HTML (no render-blocking external stylesheet, no extra request) |
+| Average HTML page           | 10.6 KB (including inlined CSS)                                              |
+| Fonts                       | **Zero downloads** - system font stack                                       |
+| Images                      | favicon only                                                                 |
 
 ## Why this is fast (the causal chain)
 
