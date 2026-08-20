@@ -1,0 +1,59 @@
+---
+/**
+ * SERVER ISLAND - rendered on the server per request, streamed into
+ * an otherwise static page via server:defer. No client JavaScript:
+ * this is the mirror image of a client island (dynamic server
+ * fragment vs dynamic browser behavior).
+ *
+ * Why a server island? The static page is cached and served globally;
+ * this fragment alone is re-rendered per request. Personalization or
+ * live data without paying a JS bundle.
+ */
+const now = new Date();
+const uptimeSeconds = Math.round(process.uptime());
+const hours = Math.floor(uptimeSeconds / 3600);
+const minutes = Math.floor((uptimeSeconds % 3600) / 60);
+---
+
+<p class="live">
+  <span class="pulse" aria-hidden="true"></span>
+  Rendered live by the server at <time datetime={now.toISOString()}>
+    {now.toISOString()}
+  </time>
+  · server up {hours}h {minutes}m
+</p>
+
+<style>
+  .live {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    border: 1px dashed var(--accent);
+    border-radius: var(--radius);
+    padding: 0.8rem 1.1rem;
+    background: var(--bg-subtle);
+    font-size: 0.92rem;
+    color: var(--fg-muted);
+  }
+
+  .pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      50% {
+        opacity: 0.4;
+      }
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LiveServerInfo from "../components/LiveServerInfo.astro";
 
 const pageTitle = "About · astro-learning-lab";
 const description =
@@ -14,6 +15,12 @@ const description =
       teaching vehicle for Astro. It is built phase by phase, each phase introducing
       a small number of concepts with tests and documentation.
     </p>
+
+    <!--
+      Server island: this page is prerendered and cached, but this
+      fragment renders on the server per request - no client JS.
+    -->
+    <LiveServerInfo server:defer />
 
     <h2>Principles</h2>
     <ul>

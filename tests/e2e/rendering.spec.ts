@@ -25,13 +25,11 @@ test.describe("rendering strategies", () => {
   test("prerendered pages are frozen at build time (control group)", async ({
     request,
   }) => {
-    const first = await request.get("/about/");
+    // /guides has no islands: it must serve identical bytes twice.
+    const first = await request.get("/guides/");
     expect(first.status()).toBe(200);
-    // A static page is served as a build artifact - this assertion is
-    // structural: it must exist as a file in dist/, verified by the
-    // build itself. Here we assert it serves identical bytes twice.
     const firstBody = await first.text();
-    const second = await request.get("/about/");
+    const second = await request.get("/guides/");
     expect(await second.text()).toBe(firstBody);
   });
 
@@ -41,5 +39,23 @@ test.describe("rendering strategies", () => {
     const response = await request.get("/status/");
     const body = await response.text();
     expect(body).toContain("On-demand (dynamic)");
+  });
+
+  test("server island on a static page renders live content per request", async ({
+    page,
+  }) => {
+    // The island content is fetched from /_server-islands/ by a tiny
+    // loader script (no framework runtime), so a real browser context
+    // is the right level to test user-visible behavior.
+    await page.goto("/about/");
+    const live = page.locator(".live time");
+    await expect(live).toBeVisible();
+    const first = await live.getAttribute("datetime");
+    expect(first).toBeTruthy();
+
+    await page.reload();
+    await expect(page.locator(".live time")).toBeVisible();
+    const second = await page.locator(".live time").getAttribute("datetime");
+    expect(second).not.toBe(first);
   });
 });
