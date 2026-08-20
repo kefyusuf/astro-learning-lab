@@ -1,38 +1,107 @@
 ---
-// Frontmatter runs at BUILD time (static output). Nothing here
-// reaches the browser. `Astro` is a global with request/page context.
-const pageTitle = "astro-learning-lab";
-const description =
-  "A developer knowledge platform built to learn Astro from zero - articles, guides and topics rendered to plain HTML.";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import TopicCard from "../components/TopicCard.astro";
+import type { ArticleCardEntry } from "../components/ArticleCard.astro";
+
+// Temporary demo data - replaced by Content Collections in Phase 4.
+const demoArticles: ArticleCardEntry[] = [
+  {
+    slug: "component-anatomy",
+    data: {
+      title: "The anatomy of an .astro component",
+      description:
+        "Frontmatter runs at build time, the template becomes HTML, and nothing ships to the browser by default.",
+      pubDate: new Date("2026-08-10"),
+    },
+  },
+  {
+    slug: "islands-mental-model",
+    data: {
+      title: "Islands: interactivity as an opt-in",
+      description:
+        "Why Astro ships zero JavaScript unless a component explicitly asks for it with a client directive.",
+      pubDate: new Date("2026-08-14"),
+    },
+  },
+  {
+    slug: "rendering-per-route",
+    data: {
+      title: "Rendering is a per-route decision",
+      description:
+        "Static and server rendering are not mutually exclusive - Astro lets every route choose.",
+      pubDate: new Date("2026-08-18"),
+    },
+  },
+];
+
+const demoTopics = [
+  {
+    slug: "fundamentals",
+    name: "Fundamentals",
+    description: "Components, props, slots and layouts.",
+    count: 3,
+  },
+  {
+    slug: "rendering",
+    name: "Rendering",
+    description: "Static generation, on-demand rendering and hydration.",
+    count: 2,
+  },
+];
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <header>
-      <nav aria-label="Main">
-        <a href="/">astro-learning-lab</a>
-        <a href="/about/">About</a>
-      </nav>
-    </header>
-    <main>
-      <h1>Learn Astro by building a real content platform</h1>
-      <p>
-        This site is the living output of a phase-based Astro curriculum. Every
-        feature exists to exercise one Astro concept - rendering, islands,
-        content collections, server logic - and nothing more.
-      </p>
-      <p>Articles, guides and topics arrive in the next phases.</p>
-    </main>
-    <footer>
-      <p><small>Built with Astro - zero client JavaScript so far.</small></p>
-    </footer>
-  </body>
-</html>
+<BaseLayout
+  title="astro-learning-lab - learn Astro by building"
+  description="A developer knowledge platform built to learn Astro from zero - articles, guides and topics rendered to plain HTML."
+>
+  <Hero
+    title="Learn Astro by building a real content platform"
+    description="This site is the living output of a phase-based Astro curriculum. Every feature exists to exercise one Astro concept - rendering, islands, content collections, server logic - and nothing more."
+  >
+    <p class="cta">
+      <a class="button" href="/articles/">Browse articles</a>
+    </p>
+  </Hero>
+
+  <section aria-labelledby="latest-heading">
+    <h2 id="latest-heading">Latest articles</h2>
+    <div class="grid">
+      {demoArticles.map((article) => <ArticleCard article={article} />)}
+    </div>
+  </section>
+
+  <section aria-labelledby="topics-heading">
+    <h2 id="topics-heading">Topics</h2>
+    <div class="grid">
+      {demoTopics.map((topic) => <TopicCard topic={topic} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    padding-block: 1.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+
+  .button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-fg);
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .cta {
+    margin-top: 1.5rem;
+  }
+</style>

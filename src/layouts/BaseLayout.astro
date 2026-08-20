@@ -1,0 +1,67 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Relative canonical path, e.g. "/articles/". Defaults to Astro.url.pathname. */
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath = Astro.url.pathname } = Astro.props;
+
+const canonicalURL = new URL(canonicalPath, Astro.site ?? Astro.url);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 1rem;
+    top: -100%;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-radius: var(--radius);
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+</style>

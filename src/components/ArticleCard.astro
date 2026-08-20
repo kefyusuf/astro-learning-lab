@@ -1,0 +1,75 @@
+---
+export interface ArticleCardEntry {
+  slug: string;
+  data: {
+    title: string;
+    description: string;
+    pubDate: Date;
+  };
+}
+
+interface Props {
+  article: ArticleCardEntry;
+}
+
+const { article } = Astro.props;
+
+const formattedDate = article.data.pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+---
+
+<article class="card">
+  <h3>
+    <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+  </h3>
+  <p>{article.data.description}</p>
+  <footer>
+    <time datetime={article.data.pubDate.toISOString()}>{formattedDate}</time>
+  </footer>
+</article>
+
+<style>
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.15rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: border-color 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+  }
+
+  .card h3 {
+    margin: 0;
+    font-size: 1.08rem;
+  }
+
+  .card h3 a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .card h3 a:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .card p {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+    flex: 1;
+  }
+
+  .card footer {
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+  }
+</style>

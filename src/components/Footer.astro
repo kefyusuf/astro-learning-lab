@@ -1,0 +1,28 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>
+      <small>
+        © {year} astro-learning-lab - a learning project. Built with
+        <a href="https://astro.build">Astro</a>.
+      </small>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .inner {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding: 1.25rem;
+    color: var(--fg-muted);
+  }
+</style>

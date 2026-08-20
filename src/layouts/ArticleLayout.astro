@@ -1,0 +1,73 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+}
+
+const { title, description, pubDate, updatedDate } = Astro.props;
+
+const format = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<BaseLayout title={`${title} · astro-learning-lab`} description={description}>
+  <article class="prose">
+    <header>
+      <h1>{title}</h1>
+      <p class="meta">
+        <time datetime={pubDate.toISOString()}>Published {format(pubDate)}</time
+        >
+        {
+          updatedDate && (
+            <span>
+              {" · "}
+              <time datetime={updatedDate.toISOString()}>
+                Updated {format(updatedDate)}
+              </time>
+            </span>
+          )
+        }
+      </p>
+    </header>
+    <slot />
+  </article>
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: var(--prose-width);
+    padding-block: 2.5rem 1rem;
+  }
+
+  .prose header {
+    margin-bottom: 2rem;
+  }
+
+  .prose h1 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: -0.02em;
+  }
+
+  .meta {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+  }
+
+  .prose :global(h2) {
+    margin-top: 2.2em;
+    font-size: 1.4rem;
+  }
+
+  .prose :global(h3) {
+    margin-top: 1.8em;
+    font-size: 1.15rem;
+  }
+</style>
