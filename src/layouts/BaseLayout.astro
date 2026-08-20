@@ -45,7 +45,8 @@ const canonicalURL = new URL(canonicalPath, Astro.site ?? Astro.url);
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
-    <main id="main">
+    <!-- tabindex="-1": lets the skip link transfer focus programmatically. -->
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer />
@@ -80,5 +81,9 @@ const canonicalURL = new URL(canonicalPath, Astro.site ?? Astro.url);
 
   .skip-link:focus {
     top: 1rem;
+  }
+
+  main:focus {
+    outline: none;
   }
 </style>
