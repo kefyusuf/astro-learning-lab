@@ -1,0 +1,39 @@
+# Learning Roadmap - astro-learning-lab
+
+> Phase-by-phase plan, updated for **Astro 7** (verified against official docs, 2026-08-21).
+> One phase = a small number of new concepts, taught before (or while) they are implemented.
+
+| # | Phase | Core concepts | Astro 7 notes |
+|---|---|---|---|
+| 0 | **Understand Astro before coding** | mental model, server-first, zero-JS, islands, rendering modes, ecosystem position | ✅ done (this doc set) |
+| 1 | **Project foundation** | project structure, `src/` vs `public/`, pages, layouts, `astro.config`, tsconfig strict, `.astro` anatomy (frontmatter/template), what runs where (build / request / browser) | pnpm; `npx astro@latest` scaffold; no framework yet |
+| 2 | **Astro components** | props with TS types, slots (default + named), composition, scoped vs global styles, `<script>` behavior, assets & image handling | Rust compiler: invalid HTML nesting now breaks visibly - write valid markup |
+| 3 | **Routing** | file-based routing, dynamic `[slug]` routes, `getStaticPaths`, rest params, 404 page, pagination | advanced routing is default; `src/fetch.ts` reserved (we don't use it) |
+| 4 | **Content Collections** | `src/content.config.ts`, `glob()` loader, zod schemas, type inference, `render()`, filtering/sorting, refs between collections, draft state | loader API is the current architecture (legacy `type`/`schema` collections are gone) |
+| 5 | **Build-time data** | fetch at build vs request vs client; latency, caching, staleness, failure handling, rebuild implications | v7 route caching (`cache` + `routeRules`, SWR) introduced here conceptually |
+| 6 | **Islands architecture** | first React island (`ArticleSearch`/`ArticleFilter`), client directives, hydration cost measurement | choose weakest directive that satisfies UX; document JS cost per island |
+| 7 | **Client state** | favorites via localStorage, hydration boundaries, progressive enhancement, server/client separation | no global state libraries unless a demonstrated need |
+| 8 | **Forms & server-side logic** | Astro Actions, `defineAction`, zod input validation, `getActionContext` in middleware, error/success states, CSRF & spam considerations | Actions are the current recommended mechanism (verified) |
+| 9 | **API endpoints** | `src/pages/api/*`, HTTP methods, `Response`/`Request` APIs, status codes, JSON, content types | `export const prerender = false` for on-demand endpoints |
+| 10 | **Rendering strategies** | static vs server per route, `prerender` export, route-level decisions, when & why | **v7 route caching stable**: `routeRules` with maxAge/SWR - teach here |
+| 11 | **Server Islands** | `server:defer`, static page + dynamic server fragment, client vs server island distinction | stable in Astro 7 - no experimental flag |
+| 12 | **Middleware** | `src/middleware.ts`, `defineMiddleware`, execution order, sequence API | realistic concerns only: request id, security headers, logging |
+| 13 | **Environment configuration** | `.env`, public (`PUBLIC_`) vs private vars, `import.meta.env`, secrets discipline | never expose secrets client-side |
+| 14 | **SEO** | semantic HTML, title/meta/canonical, Open Graph, Twitter cards, sitemap, robots, RSS, structured data | `@astrojs/sitemap`, `@astrojs/rss` |
+| 15 | **Accessibility** | WCAG 2.2 AA practices: keyboard nav, focus, landmarks, labels, contrast, alt text, reduced motion | native HTML > JS recreation |
+| 16 | **Performance** | inspect generated HTML, JS budget, hydration cost, images, fonts, CSS, Core Web Vitals | evidence-based: measure, then optimize |
+| 17 | **Security** | XSS & `set:html`, validation, secrets, security headers, CSP, clickjacking, MIME sniffing, rate limiting strategy | OWASP-guided, no security theater |
+| 18 | **Error handling** | 404, failed fetch, malformed content, server errors, invalid forms - observable, not swallowed | - |
+| 19 | **Logging & observability** | structured logs where server execution exists | **v7 stable `logger` system** (JSON log handlers); Cloudflare Workers observability |
+| 20 | **Docker** | multi-stage build, non-root user, minimal runtime, prod deps only, health check | Node deployment ≠ Workers runtime; both documented, both kept working |
+| 21 | **CI/CD** | GitHub Actions: install → format → lint → typecheck → unit → build → e2e → docker validation | `pnpm --frozen-lockfile`, fail fast |
+| 22 | **Cloudflare deployment** | **Workers + Static Assets** (current recommendation; Pages deprecated for new projects), `@astrojs/cloudflare` adapter, `wrangler.jsonc`, `ASSETS` binding, `nodejs_compat`, `.assetsignore`, preview vs production, rollback | verified against Cloudflare docs 2026-08 |
+| 23 | **Production review** | architecture / testing / security / performance / a11y / SEO / operations audit against Definition of Done | - |
+
+## Rules that apply in every phase
+
+- Small, coherent Conventional Commits; commit message explains the *why*.
+- Before each meaningful commit: `format → lint → typecheck → test → build` green.
+- TDD where it adds value (pure logic: RED→GREEN→REFACTOR; UI: behavior-level tests).
+- No unnecessary client JS, no premature abstraction, no security theater.
+- Learning checkpoint after each phase: what/why/Next.js-difference/files/tests/commands/commit + 3-5 quiz questions.
