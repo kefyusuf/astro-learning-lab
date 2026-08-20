@@ -5,6 +5,7 @@ import Hero from "../components/Hero.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import TopicCard from "../components/TopicCard.astro";
 import { isPublished, sortByPubDateDesc } from "../lib/content";
+import { fetchRepoStats } from "../lib/stats";
 
 const featured = sortByPubDateDesc(
   (await getCollection("articles", isPublished)).filter(
@@ -20,6 +21,10 @@ const topics = (await getCollection("topics")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 const articles = await getCollection("articles", isPublished);
+
+// Build-time fetch: paid once per build, embedded into the static HTML.
+// If the API is down, the fixture keeps the build green and the UI says so.
+const repoStats = await fetchRepoStats();
 
 const countForTopic = (topicId: string) =>
   articles.filter((article) =>
@@ -71,6 +76,35 @@ const countForTopic = (topicId: string) =>
       }
     </div>
   </section>
+  <section aria-labelledby="stats-heading">
+    <h2 id="stats-heading">This site runs on Astro</h2>
+    <div class="stats" data-source={repoStats.source}>
+      <div class="stat">
+        <span class="value">
+          {repoStats.stars.toLocaleString("en-US")}
+        </span>
+        <span class="label">GitHub stars</span>
+      </div>
+      <div class="stat">
+        <span class="value">
+          {repoStats.openIssues.toLocaleString("en-US")}
+        </span>
+        <span class="label">Open issues</span>
+      </div>
+      <p class="provenance">
+        {
+          repoStats.source === "fixture" ? (
+            <em>Offline build - showing committed fixture data.</em>
+          ) : (
+            <em>
+              Fetched at build time ·{" "}
+              {new Date(repoStats.fetchedAt).toISOString().slice(0, 10)}
+            </em>
+          )
+        }
+      </p>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -96,5 +130,39 @@ const countForTopic = (topicId: string) =>
 
   .cta {
     margin-top: 1.5rem;
+  }
+
+  .stats {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    background: var(--card-bg);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat .value {
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .stat .label {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
+  }
+
+  .provenance {
+    margin: 0;
+    margin-left: auto;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
   }
 </style>
