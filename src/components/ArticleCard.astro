@@ -1,4 +1,6 @@
 ---
+import FavoriteButton from "./FavoriteButton.astro";
+
 export interface ArticleCardEntry {
   id: string;
   data: {
@@ -28,6 +30,7 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en-US", {
   <p>{article.data.description}</p>
   <footer>
     <time datetime={article.data.pubDate.toISOString()}>{formattedDate}</time>
+    <FavoriteButton articleId={article.id} articleTitle={article.data.title} />
   </footer>
 </article>
 
@@ -71,5 +74,9 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en-US", {
   .card footer {
     color: var(--fg-muted);
     font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 </style>

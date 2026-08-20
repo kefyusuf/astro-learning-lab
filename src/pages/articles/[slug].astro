@@ -1,6 +1,7 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import FavoriteButton from "../../components/FavoriteButton.astro";
 import { isPublished, readingTime } from "../../lib/content";
 
 export async function getStaticPaths() {
@@ -33,6 +34,9 @@ const minutes = readingTime(entry.body ?? "");
   <p class="byline">
     By {author?.data.name} · {minutes} min read
   </p>
+  <div class="actions">
+    <FavoriteButton articleId={entry.id} articleTitle={entry.data.title} />
+  </div>
   <Content />
 
   {
@@ -56,6 +60,10 @@ const minutes = readingTime(entry.body ?? "");
     color: var(--fg-muted);
     font-size: 0.92rem;
     margin-bottom: 2rem;
+  }
+
+  .actions {
+    margin-bottom: 1.5rem;
   }
 
   .topics {

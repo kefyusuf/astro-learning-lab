@@ -1,0 +1,134 @@
+---
+/**
+ * Favorite toggle - deliberate NON-island interactivity.
+ *
+ * This needs client state (localStorage) but not a framework: two DOM
+ * operations per click. A React island would ship ~188 KB for what a
+ * 40-line script does. Astro bundles and deduplicates this <script>
+ * no matter how many times the component appears on a page.
+ *
+ * Progressive enhancement: with JS disabled the button renders but does
+ * nothing; the page itself remains fully functional.
+ */
+interface Props {
+  articleId: string;
+  articleTitle: string;
+}
+
+const { articleId, articleTitle } = Astro.props;
+---
+
+<button
+  type="button"
+  class="favorite"
+  data-favorite
+  data-article-id={articleId}
+  aria-pressed="false"
+	aria-label={`Save "${articleTitle}" to favorites`}
+>
+  <svg
+    aria-hidden="true"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <path
+      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+    ></path>
+  </svg>
+  <span class="text">Save</span>
+</button>
+
+<style>
+  .favorite {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card-bg);
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .favorite:hover {
+    border-color: var(--accent);
+    color: var(--fg);
+  }
+
+  .favorite[aria-pressed="true"] {
+    border-color: #f59e0b;
+    color: #f59e0b;
+  }
+
+  .favorite svg {
+    flex-shrink: 0;
+  }
+
+  .favorite[aria-pressed="true"] svg {
+    fill: #f59e0b;
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = "favorites";
+
+  function readFavorites(): string[] {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const parsed: unknown = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed)
+        ? parsed.filter((id): id is string => typeof id === "string")
+        : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function writeFavorites(ids: string[]): void {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    document.dispatchEvent(new CustomEvent("favorites:changed"));
+  }
+
+  function syncButton(button: HTMLButtonElement, favorites: string[]): void {
+    const id = button.dataset.articleId ?? "";
+    const pressed = favorites.includes(id);
+    button.setAttribute("aria-pressed", String(pressed));
+    const text = button.querySelector(".text");
+    if (text) text.textContent = pressed ? "Saved" : "Save";
+  }
+
+  function syncAll(): void {
+    const favorites = readFavorites();
+    for (const button of document.querySelectorAll<HTMLButtonElement>(
+      "[data-favorite]",
+    )) {
+      syncButton(button, favorites);
+    }
+  }
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>(
+    "[data-favorite]",
+  )) {
+    button.addEventListener("click", () => {
+      const id = button.dataset.articleId ?? "";
+      const favorites = readFavorites();
+      const next = favorites.includes(id)
+        ? favorites.filter((favorite) => favorite !== id)
+        : [...favorites, id];
+      writeFavorites(next);
+    });
+  }
+
+  document.addEventListener("favorites:changed", syncAll);
+  syncAll();
+</script>
