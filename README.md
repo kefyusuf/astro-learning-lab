@@ -20,18 +20,18 @@ server islands. Rendering is decided **per route**. See
 
 ## Commands
 
-| Command             | Action                                          |
-| :------------------ | :---------------------------------------------- |
-| `pnpm install`      | Install dependencies                            |
-| `pnpm dev`          | Start dev server at `localhost:4321`            |
-| `pnpm build`        | Production build to `./dist/`                   |
-| `pnpm preview`      | Preview the production build locally            |
-| `pnpm check`        | Type-check `.astro` + TypeScript                |
-| `pnpm lint`         | ESLint                                          |
-| `pnpm format`       | Prettier (write)                                |
-| `pnpm format:check` | Prettier (CI check)                             |
-| `pnpm test`         | Unit tests (Vitest)                             |
-| `pnpm test:e2e`     | End-to-end tests (Playwright)                   |
+| Command             | Action                               |
+| :------------------ | :----------------------------------- |
+| `pnpm install`      | Install dependencies                 |
+| `pnpm dev`          | Start dev server at `localhost:4321` |
+| `pnpm build`        | Production build to `./dist/`        |
+| `pnpm preview`      | Preview the production build locally |
+| `pnpm check`        | Type-check `.astro` + TypeScript     |
+| `pnpm lint`         | ESLint                               |
+| `pnpm format`       | Prettier (write)                     |
+| `pnpm format:check` | Prettier (CI check)                  |
+| `pnpm test`         | Unit tests (Vitest)                  |
+| `pnpm test:e2e`     | End-to-end tests (Playwright)        |
 
 ## Learning documentation
 

@@ -7,18 +7,18 @@
 
 ## 1. Verified Environment (as of 2026-08-21)
 
-| Component | Version |
-|---|---|
-| Astro | **7.2.4** (latest stable) |
-| @astrojs/cloudflare | 14.2.3 |
-| @astrojs/react | 6.0.4 |
-| Node.js | 22.21.0 |
-| pnpm | 10.14.0 |
+| Component           | Version                   |
+| ------------------- | ------------------------- |
+| Astro               | **7.2.4** (latest stable) |
+| @astrojs/cloudflare | 14.2.3                    |
+| @astrojs/react      | 6.0.4                     |
+| Node.js             | 22.21.0                   |
+| pnpm                | 10.14.0                   |
 
 Astro 7 highlights that affect this project:
 
 - **Rust compiler is the default and only compiler** (the Go-based compiler was removed).
-  It does *not* silently repair invalid HTML - invalid nesting produces broken output.
+  It does _not_ silently repair invalid HTML - invalid nesting produces broken output.
   This enforces the discipline we want anyway: valid, semantic HTML.
 - **Vite 8** is the dev server and production bundler.
 - **Route caching is stable**: top-level `cache` + `routeRules` (maxAge, SWR) in `astro.config`.
@@ -72,14 +72,14 @@ Browser hydration  ← only this island wakes up
 
 ## 3. Core Principles
 
-| Principle | Meaning |
-|---|---|
-| **Server-first** | Components execute during build or on the server. The browser receives HTML. |
-| **Zero-JS by default** | No client runtime unless a component explicitly opts in with a `client:*` directive. |
-| **Islands architecture** | Interactivity is isolated in small, independently hydrated components. |
-| **UI-agnostic** | Any major framework (React, Svelte, Vue, Solid, Preact) can power an island - or none. |
-| **Content-driven** | First-class Content Collections with typed schemas and validation. |
-| **Rendering is per-route** | Every route independently chooses static prerender or on-demand server rendering. |
+| Principle                  | Meaning                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------- |
+| **Server-first**           | Components execute during build or on the server. The browser receives HTML.           |
+| **Zero-JS by default**     | No client runtime unless a component explicitly opts in with a `client:*` directive.   |
+| **Islands architecture**   | Interactivity is isolated in small, independently hydrated components.                 |
+| **UI-agnostic**            | Any major framework (React, Svelte, Vue, Solid, Preact) can power an island - or none. |
+| **Content-driven**         | First-class Content Collections with typed schemas and validation.                     |
+| **Rendering is per-route** | Every route independently chooses static prerender or on-demand server rendering.      |
 
 ---
 
@@ -92,9 +92,8 @@ Rendering is decided **per route**, not per app:
 // Static (default when output: 'static'): generated at build time.
 ---
 
----
-export const prerender = false; // This route renders on-demand, per request.
----
+--- export const prerender = false; // This route renders on-demand, per
+request. ---
 ```
 
 - `output: 'static'` (default): everything prerendered at build; opt routes **out** with `export const prerender = false`.
@@ -122,13 +121,13 @@ Everything around it stays static HTML.
 
 Hydration directives (weakest strategy that satisfies the UX wins):
 
-| Directive | When it hydrates | Use for |
-|---|---|---|
-| `client:load` | Immediately on page load | Interaction is the page's primary purpose |
-| `client:idle` | After `requestIdleCallback` fires | Lower-priority, soon-needed UI |
-| `client:visible` | When the component scrolls into viewport | Below-the-fold interactive content |
-| `client:media` | When a CSS media query matches | Device-conditional widgets |
-| `client:only` | Never SSR'd; client-only render | Browser-only APIs, no SSR HTML wanted |
+| Directive        | When it hydrates                         | Use for                                   |
+| ---------------- | ---------------------------------------- | ----------------------------------------- |
+| `client:load`    | Immediately on page load                 | Interaction is the page's primary purpose |
+| `client:idle`    | After `requestIdleCallback` fires        | Lower-priority, soon-needed UI            |
+| `client:visible` | When the component scrolls into viewport | Below-the-fold interactive content        |
+| `client:media`   | When a CSS media query matches           | Device-conditional widgets                |
+| `client:only`    | Never SSR'd; client-only render          | Browser-only APIs, no SSR HTML wanted     |
 
 Every island must answer, in a comment or doc:
 
@@ -139,22 +138,22 @@ When should it hydrate?
 How much JavaScript does it add?
 ```
 
-A **server island** (`server:defer`) is the mirror image: dynamic *server* content
+A **server island** (`server:defer`) is the mirror image: dynamic _server_ content
 inside a static page - personalization without client JS.
 
 ---
 
 ## 6. Astro vs Next.js vs SPA vs Classic SSG
 
-| Dimension | Astro | Next.js | Classic SPA (CRA/Vite-React) | Classic SSG (Hugo/Jekyll) |
-|---|---|---|---|---|
-| Default output | HTML, zero JS | React tree + hydration runtime | Full React runtime | HTML, zero JS |
-| Interactivity model | Opt-in islands | Whole tree hydrates | Everything is client JS | None (or bolt-on) |
-| Rendering granularity | **Per route** | Per route (but always React) | Client-only | Build-only |
-| Content workflow | Content Collections (typed, validated) | MDX + external tooling | External tooling | File-based, weakly typed |
-| Server logic | Endpoints, Actions, middleware | Route handlers, Server Actions | None (needs a backend) | None |
-| Framework lock-in | None (UI-agnostic islands) | React only | React only | Template language only |
-| Best fit | Content sites with islands of interactivity | Full React applications | Highly interactive app shells | Purely static content |
+| Dimension             | Astro                                       | Next.js                        | Classic SPA (CRA/Vite-React)  | Classic SSG (Hugo/Jekyll) |
+| --------------------- | ------------------------------------------- | ------------------------------ | ----------------------------- | ------------------------- |
+| Default output        | HTML, zero JS                               | React tree + hydration runtime | Full React runtime            | HTML, zero JS             |
+| Interactivity model   | Opt-in islands                              | Whole tree hydrates            | Everything is client JS       | None (or bolt-on)         |
+| Rendering granularity | **Per route**                               | Per route (but always React)   | Client-only                   | Build-only                |
+| Content workflow      | Content Collections (typed, validated)      | MDX + external tooling         | External tooling              | File-based, weakly typed  |
+| Server logic          | Endpoints, Actions, middleware              | Route handlers, Server Actions | None (needs a backend)        | None                      |
+| Framework lock-in     | None (UI-agnostic islands)                  | React only                     | React only                    | Template language only    |
+| Best fit              | Content sites with islands of interactivity | Full React applications        | Highly interactive app shells | Purely static content     |
 
 **The honest trade-off:** Astro is not an app framework. If your product is a
 state-heavy application shell (Figma-like editors, complex dashboards, real-time
