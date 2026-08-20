@@ -4,22 +4,20 @@ test.describe("rendering strategies", () => {
   test("/status renders on demand: two requests show different server times", async ({
     request,
   }) => {
+    const extractTime = (html: string) =>
+      /datetime="([^"]+)"/.exec(html)?.[1] ?? "";
+
     const first = await request.get("/status/");
     expect(first.status()).toBe(200);
-    const firstTime = await first
-      .locator("time")
-      .first()
-      .getAttribute("datetime");
+    const firstTime = extractTime(await first.text());
 
     // Wait long enough for a one-second timestamp granularity change.
     await new Promise((resolve) => setTimeout(resolve, 1100));
 
     const second = await request.get("/status/");
-    const secondTime = await second
-      .locator("time")
-      .first()
-      .getAttribute("datetime");
+    const secondTime = extractTime(await second.text());
 
+    expect(firstTime).toBeTruthy();
     // Prerendered pages would return the identical frozen timestamp.
     expect(secondTime).not.toBe(firstTime);
   });
