@@ -19,6 +19,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.2.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

@@ -6,9 +6,14 @@ interface Props {
   description: string;
   pubDate: Date;
   updatedDate?: Date;
+  /** Canonical path for SEO, e.g. "/articles/my-post/". */
+  canonicalPath: string;
+  /** Author name for structured data. */
+  authorName?: string;
 }
 
-const { title, description, pubDate, updatedDate } = Astro.props;
+const { title, description, pubDate, updatedDate, canonicalPath, authorName } =
+  Astro.props;
 
 const format = (date: Date) =>
   date.toLocaleDateString("en-US", {
@@ -16,9 +21,31 @@ const format = (date: Date) =>
     month: "long",
     day: "numeric",
   });
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: authorName ? { "@type": "Person", name: authorName } : undefined,
+};
 ---
 
-<BaseLayout title={`${title} · astro-learning-lab`} description={description}>
+<BaseLayout
+  title={`${title} · astro-learning-lab`}
+  description={description}
+  canonicalPath={canonicalPath}
+  ogType="article"
+  publishedTime={pubDate}
+  updatedTime={updatedDate}
+>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(jsonLd)}
+    slot="head"
+  />
   <article class="prose">
     <header>
       <h1>{title}</h1>

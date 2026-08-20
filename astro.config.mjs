@@ -3,13 +3,14 @@ import { defineConfig, memoryCache } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import node from "@astrojs/node";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
   // The canonical origin of the site. Required later for sitemap,
   // RSS and canonical URLs. Overridable via environment (Phase 13).
   site: process.env.SITE_URL ?? "https://astro-learning-lab.example.com",
-  integrations: [mdx(), react()],
+  integrations: [mdx(), react(), sitemap()],
   // output stays 'static' by default: every route is prerendered unless
   // it opts out with `export const prerender = false`. The adapter is
   // required to serve those on-demand routes (actions, endpoints).

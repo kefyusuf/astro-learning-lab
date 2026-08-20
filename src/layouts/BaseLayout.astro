@@ -2,15 +2,26 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import SEO from "../components/SEO.astro";
 
 interface Props {
   title: string;
   description: string;
   /** Relative canonical path, e.g. "/articles/". Defaults to Astro.url.pathname. */
   canonicalPath?: string;
+  ogType?: "website" | "article";
+  publishedTime?: Date;
+  updatedTime?: Date;
 }
 
-const { title, description, canonicalPath = Astro.url.pathname } = Astro.props;
+const {
+  title,
+  description,
+  canonicalPath = Astro.url.pathname,
+  ogType,
+  publishedTime,
+  updatedTime,
+} = Astro.props;
 
 const canonicalURL = new URL(canonicalPath, Astro.site ?? Astro.url);
 ---
@@ -21,9 +32,15 @@ const canonicalURL = new URL(canonicalPath, Astro.site ?? Astro.url);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+    <SEO
+      title={title}
+      description={description}
+      canonicalURL={canonicalURL}
+      ogType={ogType}
+      publishedTime={publishedTime}
+      updatedTime={updatedTime}
+    />
+    <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
