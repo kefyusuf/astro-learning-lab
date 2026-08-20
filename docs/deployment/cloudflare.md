@@ -38,6 +38,11 @@ Cloudflare Worker (V8 isolate) + Static Assets
 | Preview (per PR)      | `wrangler versions upload` or Workers Builds CI                            |
 | Production            | `wrangler deploy` from CI after CI passes (`.github/workflows/deploy.yml`) |
 
+> Gotcha: switching adapters does not clean `dist/` - stale artifacts
+> from the other target coexist and break content-addressed asset
+> assumptions (and the JS budget test). Always delete `dist/` between
+> adapter switches. CI is immune (fresh checkout).
+
 Required repository secrets: `CLOUDFLARE_API_TOKEN`,
 `CLOUDFLARE_ACCOUNT_ID`. Optional variable: `SITE_URL` (canonical origin).
 
