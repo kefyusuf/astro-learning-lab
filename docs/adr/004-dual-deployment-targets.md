@@ -11,7 +11,7 @@ server islands), so a deployment target must provide a server runtime.
 Two credible targets exist with fundamentally different runtime models:
 
 - **Cloudflare Workers**: V8 isolates, no Node.js process; static assets
-  served from the edge *before* the Worker runs; adapter
+  served from the edge _before_ the Worker runs; adapter
   `@astrojs/cloudflare` compiles server code to `dist/_worker.js`.
 - **Docker / Node**: a real Node process (`@astrojs/node` standalone);
   static assets served by the same process; full Node API compatibility.
