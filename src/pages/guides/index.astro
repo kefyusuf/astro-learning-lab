@@ -1,0 +1,94 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { isPublished, sortByPubDateDesc } from "../../lib/content";
+
+const guides = sortByPubDateDesc(await getCollection("guides", isPublished));
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+---
+
+<BaseLayout
+  title="Guides · astro-learning-lab"
+  description="Step-by-step guides for Astro concepts - from first pages to hydration strategy."
+>
+  <div class="page-head">
+    <h1>Guides</h1>
+    <p>Hands-on walkthroughs. Longer than articles, more practical too.</p>
+  </div>
+
+  <ul class="guide-list">
+    {
+      guides.map((guide) => (
+        <li>
+          <a href={`/guides/${guide.id}/`} class="guide-link">
+            <h2>{guide.data.title}</h2>
+            <p>{guide.data.description}</p>
+            <span class="meta">
+              {guide.data.minutes} min · updated{" "}
+              {formatDate(guide.data.pubDate)}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-block: 2.5rem 1.5rem;
+    max-width: var(--prose-width);
+  }
+
+  .page-head p {
+    color: var(--fg-muted);
+  }
+
+  .guide-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: var(--prose-width);
+  }
+
+  .guide-link {
+    display: block;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.15rem 1.3rem;
+    text-decoration: none;
+    color: var(--fg);
+    transition: border-color 0.15s ease;
+  }
+
+  .guide-link:hover {
+    border-color: var(--accent);
+  }
+
+  .guide-link h2 {
+    margin: 0 0 0.3rem;
+    font-size: 1.15rem;
+  }
+
+  .guide-link p {
+    margin: 0 0 0.5rem;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+  }
+
+  .meta {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+</style>

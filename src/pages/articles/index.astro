@@ -1,24 +1,14 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ArticleCard, {
-  type ArticleCardEntry,
-} from "../../components/ArticleCard.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
 import Pagination from "../../components/Pagination.astro";
-import { getSortedArticles, type Article } from "../../data/articles";
+import { isPublished, sortByPubDateDesc } from "../../lib/content";
 import { paginate } from "../../lib/paginate";
 
-const sorted = getSortedArticles();
+const allArticles = await getCollection("articles", isPublished);
+const sorted = sortByPubDateDesc(allArticles);
 const page = paginate(sorted, 4, 1);
-
-// Demo data uses a flat shape; collections (Phase 4) produce {slug, data}.
-const toCardEntry = (article: Article): ArticleCardEntry => ({
-  slug: article.slug,
-  data: {
-    title: article.title,
-    description: article.description,
-    pubDate: article.pubDate,
-  },
-});
 ---
 
 <BaseLayout
@@ -31,11 +21,7 @@ const toCardEntry = (article: Article): ArticleCardEntry => ({
   </div>
 
   <div class="grid">
-    {
-      page.items.map((article) => (
-        <ArticleCard article={toCardEntry(article)} />
-      ))
-    }
+    {page.items.map((article) => <ArticleCard article={article} />)}
   </div>
 
   <Pagination

@@ -1,6 +1,6 @@
 ---
 export interface ArticleCardEntry {
-  slug: string;
+  id: string;
   data: {
     title: string;
     description: string;
@@ -23,7 +23,7 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en-US", {
 
 <article class="card">
   <h3>
-    <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+    <a href={`/articles/${article.id}/`}>{article.data.title}</a>
   </h3>
   <p>{article.data.description}</p>
   <footer>

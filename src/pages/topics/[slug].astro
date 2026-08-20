@@ -1,50 +1,43 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ArticleCard, {
-  type ArticleCardEntry,
-} from "../../components/ArticleCard.astro";
-import { topics, getArticlesByTopic, type Article } from "../../data/articles";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { isPublished, sortByPubDateDesc } from "../../lib/content";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const topics = await getCollection("topics");
   return topics.map((topic) => ({
-    params: { slug: topic.slug },
+    params: { slug: topic.id },
   }));
 }
 
 const { slug } = Astro.params;
-const topic = topics.find((topic) => topic.slug === slug);
+const topic = (await getCollection("topics")).find(
+  (topic) => topic.id === slug,
+);
 
 if (!topic) {
   return Astro.redirect("/404");
 }
 
-const topicArticles = getArticlesByTopic(topic.slug);
-
-const toCardEntry = (article: Article): ArticleCardEntry => ({
-  slug: article.slug,
-  data: {
-    title: article.title,
-    description: article.description,
-    pubDate: article.pubDate,
-  },
-});
+const topicArticles = sortByPubDateDesc(
+  (await getCollection("articles", isPublished)).filter((article) =>
+    article.data.topics.some((ref) => ref.id === topic.id),
+  ),
+);
 ---
 
 <BaseLayout
-  title={`${topic.name} · Topics · astro-learning-lab`}
-  description={topic.description}
+  title={`${topic.data.name} · Topics · astro-learning-lab`}
+  description={topic.data.description}
 >
   <div class="page-head">
-    <h1>{topic.name}</h1>
-    <p>{topic.description}</p>
+    <h1>{topic.data.name}</h1>
+    <p>{topic.data.description}</p>
   </div>
 
   <div class="grid">
-    {
-      topicArticles.map((article) => (
-        <ArticleCard article={toCardEntry(article)} />
-      ))
-    }
+    {topicArticles.map((article) => <ArticleCard article={article} />)}
   </div>
 </BaseLayout>
 

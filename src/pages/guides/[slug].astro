@@ -1,0 +1,80 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { isPublished } from "../../lib/content";
+
+export async function getStaticPaths() {
+  const guides = await getCollection("guides", isPublished);
+  return guides.map((guide) => ({
+    params: { slug: guide.id },
+  }));
+}
+
+const { slug } = Astro.params;
+const entry = (await getCollection("guides")).find(
+  (guide) => guide.id === slug,
+);
+
+if (!entry || !isPublished(entry)) {
+  return Astro.redirect("/404");
+}
+
+const { Content } = await render(entry);
+const author = await getEntry(entry.data.author);
+---
+
+<BaseLayout
+  title={`${entry.data.title} · astro-learning-lab`}
+  description={entry.data.description}
+>
+  <div class="guide">
+    <header>
+      <p class="kicker">Guide · {entry.data.minutes} min</p>
+      <h1>{entry.data.title}</h1>
+      <p class="byline">
+        By {author?.data.name} ·
+        <time datetime={entry.data.pubDate.toISOString()}>
+          {
+            entry.data.pubDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          }
+        </time>
+      </p>
+    </header>
+    <Content />
+  </div>
+</BaseLayout>
+
+<style>
+  .guide {
+    max-width: var(--prose-width);
+    padding-block: 2.5rem 1rem;
+  }
+
+  .kicker {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .guide h1 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: -0.02em;
+  }
+
+  .byline {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+    margin-bottom: 2rem;
+  }
+
+  .guide :global(h2) {
+    margin-top: 2.2em;
+    font-size: 1.4rem;
+  }
+</style>

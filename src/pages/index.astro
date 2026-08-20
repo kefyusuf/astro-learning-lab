@@ -1,55 +1,30 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import TopicCard from "../components/TopicCard.astro";
-import type { ArticleCardEntry } from "../components/ArticleCard.astro";
+import { isPublished, sortByPubDateDesc } from "../lib/content";
 
-// Temporary demo data - replaced by Content Collections in Phase 4.
-const demoArticles: ArticleCardEntry[] = [
-  {
-    slug: "component-anatomy",
-    data: {
-      title: "The anatomy of an .astro component",
-      description:
-        "Frontmatter runs at build time, the template becomes HTML, and nothing ships to the browser by default.",
-      pubDate: new Date("2026-08-10"),
-    },
-  },
-  {
-    slug: "islands-mental-model",
-    data: {
-      title: "Islands: interactivity as an opt-in",
-      description:
-        "Why Astro ships zero JavaScript unless a component explicitly asks for it with a client directive.",
-      pubDate: new Date("2026-08-14"),
-    },
-  },
-  {
-    slug: "rendering-per-route",
-    data: {
-      title: "Rendering is a per-route decision",
-      description:
-        "Static and server rendering are not mutually exclusive - Astro lets every route choose.",
-      pubDate: new Date("2026-08-18"),
-    },
-  },
-];
+const featured = sortByPubDateDesc(
+  (await getCollection("articles", isPublished)).filter(
+    (article) => article.data.featured,
+  ),
+).slice(0, 3);
 
-const demoTopics = [
-  {
-    slug: "fundamentals",
-    name: "Fundamentals",
-    description: "Components, props, slots and layouts.",
-    count: 3,
-  },
-  {
-    slug: "rendering",
-    name: "Rendering",
-    description: "Static generation, on-demand rendering and hydration.",
-    count: 2,
-  },
-];
+const latest = sortByPubDateDesc(
+  await getCollection("articles", isPublished),
+).slice(0, 3);
+
+const topics = (await getCollection("topics")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const articles = await getCollection("articles", isPublished);
+
+const countForTopic = (topicId: string) =>
+  articles.filter((article) =>
+    article.data.topics.some((ref) => ref.id === topicId),
+  ).length;
 ---
 
 <BaseLayout
@@ -65,17 +40,35 @@ const demoTopics = [
     </p>
   </Hero>
 
+  <section aria-labelledby="featured-heading">
+    <h2 id="featured-heading">Featured</h2>
+    <div class="grid">
+      {featured.map((article) => <ArticleCard article={article} />)}
+    </div>
+  </section>
+
   <section aria-labelledby="latest-heading">
     <h2 id="latest-heading">Latest articles</h2>
     <div class="grid">
-      {demoArticles.map((article) => <ArticleCard article={article} />)}
+      {latest.map((article) => <ArticleCard article={article} />)}
     </div>
   </section>
 
   <section aria-labelledby="topics-heading">
     <h2 id="topics-heading">Topics</h2>
     <div class="grid">
-      {demoTopics.map((topic) => <TopicCard topic={topic} />)}
+      {
+        topics.map((topic) => (
+          <TopicCard
+            topic={{
+              slug: topic.id,
+              name: topic.data.name,
+              description: topic.data.description,
+              count: countForTopic(topic.id),
+            }}
+          />
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

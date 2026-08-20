@@ -1,0 +1,5 @@
+{
+  "name": "Rendering",
+  "description": "Static generation, on-demand rendering and per-route decisions.",
+  "order": 2
+}

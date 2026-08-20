@@ -1,7 +1,13 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TopicCard from "../../components/TopicCard.astro";
-import { topics, articles } from "../../data/articles";
+import { isPublished } from "../../lib/content";
+
+const topics = (await getCollection("topics")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const articles = await getCollection("articles", isPublished);
 ---
 
 <BaseLayout
@@ -18,9 +24,11 @@ import { topics, articles } from "../../data/articles";
       topics.map((topic) => (
         <TopicCard
           topic={{
-            ...topic,
+            slug: topic.id,
+            name: topic.data.name,
+            description: topic.data.description,
             count: articles.filter((article) =>
-              article.topicSlugs.includes(topic.slug),
+              article.data.topics.some((ref) => ref.id === topic.id),
             ).length,
           }}
         />

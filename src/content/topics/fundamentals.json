@@ -1,0 +1,5 @@
+{
+  "name": "Fundamentals",
+  "description": "Components, props, slots, layouts and the .astro file model.",
+  "order": 1
+}

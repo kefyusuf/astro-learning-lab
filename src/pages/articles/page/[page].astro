@@ -1,16 +1,19 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ArticleCard, {
-  type ArticleCardEntry,
-} from "../../../components/ArticleCard.astro";
+import ArticleCard from "../../../components/ArticleCard.astro";
 import Pagination from "../../../components/Pagination.astro";
-import { getSortedArticles, type Article } from "../../../data/articles";
+import {
+  isPublished,
+  sortByPubDateDesc,
+  ARTICLES_PAGE_SIZE,
+} from "../../../lib/content";
 import { paginate } from "../../../lib/paginate";
 
-export function getStaticPaths() {
-  const sorted = getSortedArticles();
-  const pageSize = 4;
-  const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
+export async function getStaticPaths() {
+  const allArticles = await getCollection("articles", isPublished);
+  const sorted = sortByPubDateDesc(allArticles);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / ARTICLES_PAGE_SIZE));
 
   // Page 1 lives at /articles/ (index route). This route owns pages 2..N.
   return Array.from({ length: totalPages - 1 }, (_, index) => ({
@@ -19,23 +22,17 @@ export function getStaticPaths() {
 }
 
 const { page } = Astro.params;
-const pageNumber = Number(page);
 
-const sorted = getSortedArticles();
-const result = paginate(sorted, 4, pageNumber);
-
-const toCardEntry = (article: Article): ArticleCardEntry => ({
-  slug: article.slug,
-  data: {
-    title: article.title,
-    description: article.description,
-    pubDate: article.pubDate,
-  },
-});
+const allArticles = await getCollection("articles", isPublished);
+const result = paginate(
+  sortByPubDateDesc(allArticles),
+  ARTICLES_PAGE_SIZE,
+  Number(page),
+);
 ---
 
 <BaseLayout
-  title={`Articles, page ${pageNumber} · astro-learning-lab`}
+  title={`Articles, page ${result.pageNumber} · astro-learning-lab`}
   description="Articles about Astro - components, rendering, islands and content architecture."
 >
   <div class="page-head">
@@ -44,11 +41,7 @@ const toCardEntry = (article: Article): ArticleCardEntry => ({
   </div>
 
   <div class="grid">
-    {
-      result.items.map((article) => (
-        <ArticleCard article={toCardEntry(article)} />
-      ))
-    }
+    {result.items.map((article) => <ArticleCard article={article} />)}
   </div>
 
   <Pagination

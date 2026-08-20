@@ -1,0 +1,34 @@
+---
+title: "Guide: choose a hydration strategy"
+description: "A decision walkthrough for client directives, with a live MDX-embedded component example."
+pubDate: 2026-08-19
+author: grace-hopper
+topics: [islands, rendering]
+minutes: 20
+---
+
+import Callout from "../../components/Callout.astro";
+
+Choosing a hydration strategy is choosing _when_ the user pays for interactivity. This guide embeds an interactive component directly in Markdown via MDX.
+
+<Callout kind="tip">
+  MDX lets content import real components. The component below is rendered at
+  build time like any other - MDX adds no client JS by itself.
+</Callout>
+
+## The decision tree
+
+1. Does the feature need JavaScript at all? If plain HTML + CSS works, stop.
+2. Can a small vanilla `<script>` do it? Prefer that - no framework runtime.
+3. If a framework island is justified, hydrate as late as the UX allows:
+   `client:visible` for below-the-fold, `client:idle` for soon-needed UI,
+   `client:load` only when interaction is the page's purpose.
+
+<Callout kind="warning">
+  Never reach for `client:load` by default. It is the most expensive choice and
+  the least often justified.
+</Callout>
+
+## Measure, then commit
+
+Record the bundle cost of every island next to its directive. A strategy you cannot measure is a strategy you cannot defend.

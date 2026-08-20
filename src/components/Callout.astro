@@ -1,0 +1,58 @@
+---
+/**
+ * A tiny content component used by MDX entries. Lives with components,
+ * not pages - content authors import it like any other component.
+ */
+interface Props {
+  kind?: "tip" | "warning" | "note";
+}
+
+const { kind = "note" } = Astro.props;
+
+const labels: Record<string, string> = {
+  tip: "Tip",
+  warning: "Warning",
+  note: "Note",
+};
+---
+
+<aside class={`callout callout-${kind}`} role="note">
+  <p class="label">{labels[kind]}</p>
+  <slot />
+</aside>
+
+<style>
+  .callout {
+    border: 1px solid var(--border);
+    border-left-width: 3px;
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    margin-block: 1.25rem;
+    background: var(--bg-subtle);
+  }
+
+  .callout-tip {
+    border-left-color: #22c55e;
+  }
+
+  .callout-warning {
+    border-left-color: #f59e0b;
+  }
+
+  .callout-note {
+    border-left-color: var(--accent);
+  }
+
+  .label {
+    margin: 0 0 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--fg-muted);
+  }
+
+  .callout :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>
