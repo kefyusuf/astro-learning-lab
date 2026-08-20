@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+/**
+ * Served by the server runtime when a request fails with an uncaught
+ * error (on-demand routes). Static pages never hit this: their
+ * failures happen at build time and fail the build instead - which is
+ * the point.
+ */
+export const prerender = false;
+---
+
+<BaseLayout
+  title="Something went wrong · astro-learning-lab"
+  description="An unexpected server error occurred."
+>
+  <div class="error">
+    <h1>500 - Something went wrong</h1>
+    <p>
+      An unexpected error occurred on our side. It has been logged with a
+      request id - if the problem persists, please
+      <a href="/feedback/">tell us what you were doing</a>.
+    </p>
+    <p><a href="/">Back to the homepage</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .error {
+    padding-block: 5rem;
+    max-width: var(--prose-width);
+  }
+</style>
