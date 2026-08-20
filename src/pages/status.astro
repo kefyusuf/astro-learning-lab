@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+/**
+ * On-demand server rendering: this page renders per request, so its
+ * content can reflect the moment - unlike every prerendered page on
+ * this site, whose "now" is frozen at build time.
+ */
+export const prerender = false;
+
+const now = new Date();
+const uptimeSeconds = Math.round(process.uptime());
+const formatUptime = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return `${hours}h ${minutes}m`;
+};
+---
+
+<BaseLayout
+  title="Server status · astro-learning-lab"
+  description="Live server-rendered status - proof that this route renders per request."
+>
+  <div class="page">
+    <h1>Server status</h1>
+    <p>
+      This page is <strong>server-rendered on demand</strong> (
+      <code>export const prerender = false</code>). Every request re-runs the
+      frontmatter - the timestamps below change while every prerendered page on
+      this site stays frozen at its build time.
+    </p>
+
+    <dl class="status-grid">
+      <div>
+        <dt>Server time (UTC)</dt>
+        <dd><time datetime={now.toISOString()}>{now.toISOString()}</time></dd>
+      </div>
+      <div>
+        <dt>Server uptime</dt>
+        <dd>{formatUptime(uptimeSeconds)}</dd>
+      </div>
+      <div>
+        <dt>Runtime</dt>
+        <dd>Node {process.version}</dd>
+      </div>
+      <div>
+        <dt>Rendering mode</dt>
+        <dd>On-demand (dynamic)</dd>
+      </div>
+    </dl>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--prose-width);
+    padding-block: 2.5rem 1rem;
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+    margin-block: 1.5rem;
+  }
+
+  .status-grid div {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    background: var(--card-bg);
+  }
+
+  dt {
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+  }
+
+  dd {
+    margin: 0.2rem 0 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+  }
+</style>

@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, memoryCache } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import node from "@astrojs/node";
@@ -14,4 +14,13 @@ export default defineConfig({
   // it opts out with `export const prerender = false`. The adapter is
   // required to serve those on-demand routes (actions, endpoints).
   adapter: node({ mode: "standalone" }),
+  // Stable in Astro 7: route-level caching for on-demand routes.
+  // /api/articles is cached for 5 minutes, then revalidated in the
+  // background (stale-while-revalidate) for up to a minute.
+  cache: {
+    provider: memoryCache(),
+  },
+  routeRules: {
+    "/api/articles": { maxAge: 300, swr: 60 },
+  },
 });
