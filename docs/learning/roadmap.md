@@ -40,23 +40,21 @@
 
 ## Phase 24+ - Extension backlog (post-curriculum)
 
-Repo-hygiene items land as needed; learning extensions below are ordered
-by teaching value:
-
-| Topic                                                 | Why it teaches something new                                                                                            |
-| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **`astro:env`**                                       | Typed, validated environment schema (`import.meta.env` strings today); compile-time guarantees for PUBLIC_/server split |
-| **View Transitions (`ClientRouter`)**                 | Client-side navigation while staying HTML-first; island persistence across navigations                                  |
-| **`astro:assets` `<Image />` + real content images**  | Image optimization pipeline, formats, layout-shift discipline; activates the Cloudflare Images binding decision         |
-| **Island component tests** (`@testing-library/react`) | Testing hydration units in isolation vs whole-page E2E                                                                  |
-| **Lighthouse CI**                                     | Core Web Vitals regression gates alongside the JS budget tests                                                          |
-| **Multi-browser E2E** (Firefox/WebKit)                | Cross-engine behavior of islands, CSS, forms                                                                            |
-| **Custom content loader** (live loader)               | Beyond `glob()`: loading from an API/database with types                                                                |
-| **Prefetch strategy**                                 | Link prefetching trade-offs on a zero-JS site                                                                           |
-| **Sessions API + platform driver**                    | Server sessions on Workers KV vs Node filesystem                                                                        |
-| **Rate-limit middleware**                             | Trigger already documented in security.md (public Node exposure)                                                        |
-| **i18n routing**                                      | Locale-prefixed routes, content localization                                                                            |
-| **Release automation** (release-please / changesets)  | Conventional commits → changelog + versions                                                                             |
+| Topic                                                 | Status  | Why it teaches something new                                                                                  |
+| ----------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| **`astro:env`**                                       | ✅ done | Typed, validated environment schema; compile-time guarantees for the server/secret boundary                   |
+| **View Transitions (`ClientRouter`)**                 | ✅ done | Client-side navigation while staying HTML-first; swap-aware scripts (`astro:after-swap`)                      |
+| **`astro:assets` `<Image />` + real content images**  | ✅ done | Build-time image pipeline, responsive srcset, intrinsic dimensions, `og:image`; CF 'compile' service decision |
+| **Island component tests** (`@testing-library/react`) | ✅ done | Hydration units tested in isolation vs whole-page E2E                                                         |
+| **Lighthouse CI**                                     | ✅ done | Category gates in CI alongside the JS budget unit tests                                                       |
+| **Multi-browser E2E** (Firefox/WebKit)                | ✅ done | Cross-engine behavior; WebKit's Tab-order platform behavior encoded as a documented skip                      |
+| **Coverage thresholds**                               | ✅ done | src/lib ≥ 90% enforced; fetch-boundary mocking added                                                          |
+| **Release automation**                                | ✅ done | release-please over conventional commits                                                                      |
+| Custom content loader (live loader)                   | ⬜ open | Beyond `glob()`: loading from an API/database with types                                                      |
+| Prefetch strategy                                     | ⬜ open | Link prefetching trade-offs on a zero-JS site                                                                 |
+| Sessions API + platform driver                        | ⬜ open | Server sessions on Workers KV vs Node filesystem                                                              |
+| Rate-limit middleware                                 | ⬜ open | Trigger documented in security.md (public Node exposure)                                                      |
+| i18n routing                                          | ⬜ open | Locale-prefixed routes, content localization                                                                  |
 
 Not planned deliberately: Tailwind (vanilla CSS is the styling lesson),
 global state libraries (no demonstrated need), SPA-mode anything.

@@ -61,18 +61,19 @@ server islands. Rendering is decided **per route**. See
 
 ## Commands
 
-| Command             | Action                                          |
-| :------------------ | :---------------------------------------------- |
-| `pnpm install`      | Install dependencies                            |
-| `pnpm dev`          | Start dev server at `localhost:4321`            |
-| `pnpm build`        | Production build to `./dist/`                   |
-| `pnpm preview`      | Preview the production build locally            |
-| `pnpm check`        | Type-check `.astro` + TypeScript                |
-| `pnpm lint`         | ESLint                                          |
-| `pnpm format`       | Prettier (write)                                |
-| `pnpm format:check` | Prettier (CI check)                             |
-| `pnpm test`         | Unit tests (Vitest) - includes JS budget checks |
-| `pnpm test:e2e`     | End-to-end tests (Playwright)                   |
+| Command              | Action                                          |
+| :------------------- | :---------------------------------------------- |
+| `pnpm install`       | Install dependencies                            |
+| `pnpm dev`           | Start dev server at `localhost:4321`            |
+| `pnpm build`         | Production build to `./dist/`                   |
+| `pnpm preview`       | Preview the production build locally            |
+| `pnpm check`         | Type-check `.astro` + TypeScript                |
+| `pnpm lint`          | ESLint                                          |
+| `pnpm format`        | Prettier (write)                                |
+| `pnpm format:check`  | Prettier (CI check)                             |
+| `pnpm test`          | Unit tests (Vitest) - includes JS budget checks |
+| `pnpm test:coverage` | Unit tests with coverage thresholds (src/lib)   |
+| `pnpm test:e2e`      | End-to-end tests (Playwright)                   |
 
 CI runs the same sequence plus dependency audit and a Docker image build.
 
@@ -86,6 +87,14 @@ docker compose up --build
 Multi-stage build, non-root user (`app`), standalone Node server serving
 the hybrid output (static assets + on-demand routes). See ADR-004 for why
 Docker and Cloudflare are both kept working.
+
+## Testing & quality gates
+
+- **Unit** (Vitest): pure logic, action schemas, security policies, build-output JS budgets - `src/lib` coverage ≥ 90% enforced
+- **Island units** (@testing-library/react): hydration components in isolation
+- **E2E** (Playwright): behavior-level specs on **Chromium, Firefox and WebKit** against the production preview - including a JavaScript-disabled progressive-enhancement test and axe-core accessibility scans (zero violations)
+- **Lighthouse CI**: performance ≥ 0.9, a11y ≥ 0.95, best-practices ≥ 0.9, seo ≥ 0.9 category gates
+- **Renovate** keeps dependencies fresh; Astro majors are reviewed manually on purpose
 
 ## Deployment
 
@@ -122,3 +131,7 @@ pnpm exec wrangler dev                            # local Workers runtime (no ac
 
 - Node.js ≥ 22.12 (pnpm pinned via `packageManager`; corepack handles it)
 - For containers: Docker with Compose
+
+## License
+
+[MIT](LICENSE)

@@ -29,3 +29,6 @@ pnpm-debug.log*
 !.wrangler/deploy/
 .wrangler/deploy/*
 !.wrangler/deploy/config.json
+
+# lighthouse ci artifacts
+.lighthouseci/

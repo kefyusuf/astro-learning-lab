@@ -38,6 +38,14 @@
 - Framework JS only on `/articles` routes
 - Inline scripts < 2.5 KB per page (< 8 KB on island pages - props scale with the searchable list)
 - Every page < 40 KB HTML including inlined CSS
+- Lighthouse CI gates (`.lighthouserc.json`): performance ≥ 0.9,
+  accessibility ≥ 0.95, best-practices ≥ 0.9, seo ≥ 0.9,
+  `total-byte-weight` ≤ ~254 KB per page. Measured locally:
+  performance score 96-100 across key pages.
+  Note: LHCI's `resource-summary` size assertions return undefined
+  values against the bundled newer Lighthouse - byte budgets therefore
+  live here and in the Vitest build-output tests, which are
+  deterministic; LHCI owns the lab-metric/category gates.
 
 ## What would break the budget (watch list)
 

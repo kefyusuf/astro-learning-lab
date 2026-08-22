@@ -169,6 +169,44 @@ Core Web Vitals), not marketing.
 
 ---
 
+---
+
+## Phase 24 additions
+
+### `astro:env`
+
+Typed environment schema in `astro.config` (`envField`). Variables are
+validated at build time and imported type-safely from `astro:env/server`
+or `astro:env/client`. `context: 'server' + access: 'secret'` guarantees
+a value never enters the client bundle - enforced by the schema, not by
+naming convention. A missing required variable fails the build.
+
+### View Transitions (`ClientRouter`)
+
+Client-side routing with full DOM swaps: every page stays server-rendered;
+navigation fetches and swaps the new HTML. The trade-off: the router ships
+a ~16 KB shared runtime to every page. **Bundled scripts run once per full
+load** - DOM-lifecycle work must re-run on `astro:after-swap` /
+`astro:page-load` (see the favorites script). `data-astro-rerun` is the
+escape hatch for inline scripts.
+
+### `astro:assets` (`<Image />`)
+
+Images become build artifacts. Content-collection images use the schema
+function's `image()` helper (frontmatter paths become typed
+`ImageMetadata`). `<Image>` derives responsive `srcset`, WebP conversion
+and intrinsic dimensions (no layout shift); `getImage()` yields the final
+URL for `og:image`. Image service is a build/runtime decision - this
+project compiles at build time on both targets.
+
+### Island component testing
+
+Islands are ordinary framework components: `@testing-library/react` +
+happy-dom tests hydration units (filtering, states, accessibility roles)
+in isolation, complementing page-level Playwright E2E. In Vite 8, JSX
+transform config lives in **tsconfig** (`jsx: react-jsx`), not the
+ignored esbuild key.
+
 ## Open questions (filled in as phases progress)
 
 - [ ] What exactly does the build output look like? (Phase 1)
