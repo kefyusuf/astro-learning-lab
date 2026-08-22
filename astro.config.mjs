@@ -50,6 +50,13 @@ export default defineConfig({
           imageService: "compile",
         })
       : node({ mode: "standalone" }),
+  // Link prefetching: hover/focus on internal links starts fetching the
+  // next page so ClientRouter swaps are near-instant. Adds a ~1 KB
+  // script to every page - recorded in the JS budget.
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
   // No server sessions in this project (favorites are client-side,
   // action results ride the POST response). Disabling keeps the
   // Workers build from provisioning a KV namespace.
