@@ -1,5 +1,11 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    // React islands: .tsx files use the automatic JSX runtime.
+    // The bundler (Rolldown/Oxc in Vite 8) reads this for transforms.
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"]
 }
