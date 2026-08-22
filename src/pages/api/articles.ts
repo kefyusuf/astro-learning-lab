@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { withBase } from "../../lib/base";
 import { isPublished, sortByPubDateDesc } from "../../lib/content";
 
 /**
@@ -46,7 +47,7 @@ export const GET: APIRoute = async ({ url }) => {
     description: article.data.description,
     pubDate: article.data.pubDate.toISOString(),
     topics: article.data.topics.map((ref) => ref.id),
-    url: `/articles/${article.id}/`,
+    url: withBase(`/articles/${article.id}/`),
   }));
 
   return jsonResponse({ count: items.length, items });

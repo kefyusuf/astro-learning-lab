@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/base";
+
 interface Props {
   topic: {
     slug: string;
@@ -11,7 +13,7 @@ interface Props {
 const { topic } = Astro.props;
 ---
 
-<a class="topic-card" href={`/topics/${topic.slug}/`}>
+<a class="topic-card" href={withBase(`/topics/${topic.slug}/`)}>
   <h3>{topic.name}</h3>
   <p>{topic.description}</p>
   <span class="count">{topic.count} article{topic.count === 1 ? "" : "s"}</span>

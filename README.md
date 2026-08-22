@@ -110,6 +110,9 @@ pnpm exec wrangler dev                            # local Workers runtime (no ac
   [docs/deployment/cloudflare.md](docs/deployment/cloudflare.md) covers
   build, secrets, routing, caching, logs and rollback. Deploys are
   automated by `.github/workflows/deploy.yml` after CI passes.
+- **GitHub Pages** - a static mirror at
+  `https://kefyusuf.github.io/astro-learning-lab/` (no server features;
+  see [docs/deployment/github-pages.md](docs/deployment/github-pages.md)).
 - **Docker / Node** provides reproducible CI validation and alternate
   hosting.
 

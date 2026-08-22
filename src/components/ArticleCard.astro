@@ -1,4 +1,5 @@
 ---
+import { withBase } from "../lib/base";
 import FavoriteButton from "./FavoriteButton.astro";
 
 export interface ArticleCardEntry {
@@ -25,7 +26,7 @@ const formattedDate = article.data.pubDate.toLocaleDateString("en-US", {
 
 <article class="card">
   <h3>
-    <a href={`/articles/${article.id}/`}>{article.data.title}</a>
+    <a href={withBase(`/articles/${article.id}/`)}>{article.data.title}</a>
   </h3>
   <p>{article.data.description}</p>
   <footer>

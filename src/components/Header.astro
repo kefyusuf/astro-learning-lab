@@ -1,17 +1,19 @@
 ---
+import { stripBase, withBase } from "../lib/base";
+
 interface NavLink {
   href: string;
   label: string;
 }
 
 const links: NavLink[] = [
-  { href: "/articles/", label: "Articles" },
-  { href: "/guides/", label: "Guides" },
-  { href: "/topics/", label: "Topics" },
-  { href: "/about/", label: "About" },
+  { href: withBase("/articles/"), label: "Articles" },
+  { href: withBase("/guides/"), label: "Guides" },
+  { href: withBase("/topics/"), label: "Topics" },
+  { href: withBase("/about/"), label: "About" },
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = stripBase(Astro.url.pathname);
 
 function isActive(href: string, current: string): boolean {
   if (href === "/") return current === "/";
@@ -21,7 +23,7 @@ function isActive(href: string, current: string): boolean {
 
 <header class="site-header">
   <div class="inner">
-    <a class="brand" href="/">astro<span>-learning-lab</span></a>
+    <a class="brand" href={withBase("/")}>astro<span>-learning-lab</span></a>
     <nav aria-label="Main">
       <ul>
         {

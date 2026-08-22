@@ -5,6 +5,7 @@ import Hero from "../components/Hero.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import TopicCard from "../components/TopicCard.astro";
 import { isPublished, sortByPubDateDesc } from "../lib/content";
+import { withBase } from "../lib/base";
 import { fetchRepoStats } from "../lib/stats";
 
 const featured = sortByPubDateDesc(
@@ -41,7 +42,7 @@ const countForTopic = (topicId: string) =>
     description="This site is the living output of a phase-based Astro curriculum. Every feature exists to exercise one Astro concept - rendering, islands, content collections, server logic - and nothing more."
   >
     <p class="cta">
-      <a class="button" href="/articles/">Browse articles</a>
+      <a class="button" href={withBase("/articles/")}>Browse articles</a>
     </p>
   </Hero>
 

@@ -9,6 +9,7 @@ import {
   ARTICLES_PAGE_SIZE,
 } from "../../../lib/content";
 import { paginate } from "../../../lib/paginate";
+import { withBase } from "../../../lib/base";
 
 export async function getStaticPaths() {
   const allArticles = await getCollection("articles", isPublished);
@@ -45,7 +46,7 @@ const result = paginate(
   </div>
 
   <Pagination
-    baseUrl="/articles"
+    baseUrl={withBase("/articles")}
     pageNumber={result.pageNumber}
     totalPages={result.totalPages}
   />

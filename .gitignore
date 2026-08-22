@@ -32,3 +32,6 @@ pnpm-debug.log*
 
 # lighthouse ci artifacts
 .lighthouseci/
+
+# transient stash from scripts/build-pages.mjs
+.pages-stash/

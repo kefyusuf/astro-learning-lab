@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withBase } from "../../lib/base";
 import type { JSX } from "react";
 
 /**
@@ -62,7 +63,7 @@ export default function ArticleSearch({
           <ul className="results" aria-live="polite">
             {results.map((article) => (
               <li key={article.id}>
-                <a href={`/articles/${article.id}/`}>
+                <a href={withBase(`/articles/${article.id}/`)}>
                   <span className="title">{article.title}</span>
                   <span className="description">{article.description}</span>
                 </a>

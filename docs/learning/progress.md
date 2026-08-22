@@ -29,6 +29,13 @@
 | 22  | Cloudflare deployment          | ✅ done | `DEPLOY_TARGET` adapter switch, minimal wrangler.jsonc (v13+ auto-config), `wrangler dev` runtime verified, deploy workflow, full deployment doc                                         | 2026-08-21 |
 | 23  | Production review              | ✅ done | `docs/architecture/production-review.md` - full audit with evidence and honest limitations                                                                                               | 2026-08-21 |
 
+## Phase 24 extensions (post-curriculum, same day)
+
+astro:env schema · ClientRouter view transitions · astro:assets covers ·
+island component tests · Lighthouse CI gates · three-browser E2E ·
+coverage thresholds · Renovate · release-please · GitHub Pages static
+mirror (ADR-005) with base-path discipline.
+
 ## Final state
 
 - **42 unit tests, 43 E2E tests** - all green
