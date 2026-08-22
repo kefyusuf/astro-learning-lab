@@ -215,3 +215,40 @@ ignored esbuild key.
 - [ ] What does an island's JS bundle actually contain? (Phase 6)
 - [ ] How does `server:defer` stream into cached HTML? (Phase 11)
 - [ ] How do routeRules interact with the adapter? (Phase 10/22)
+
+---
+
+## Phase 25 additions
+
+### Custom Content Loader
+
+A collection's `loader` is your code: `async load({ store, logger })`
+reads from anywhere, validates, and fills the data store
+(`store.clear()` then `store.set({ id, data })`). The zod schema still
+applies on read. Failure contract: invalid source data fails the build.
+Trap: the context store type exposes `clear()`, not `clearAll()`.
+
+### Prefetch
+
+`prefetch: { prefetchAll: true }` ships a tiny script that fetches
+internal pages on hover/focus. Pairs with ClientRouter for near-instant
+swaps. Cost here: ~1.6 KB shared.
+
+### Sessions (`Astro.session`)
+
+Per-visitor server state behind an opaque cookie. Drivers: filesystem
+(Node standalone) or KV (Cloudflare, auto-provisioned on deploy).
+Server-only routes can personalize without client JS.
+
+### Rate limiting (middleware)
+
+Fixed-window counter keyed by IP, injected clock for deterministic
+tests, 429 + `Retry-After` on exceed. In-memory = per-instance
+deterrent; the platform WAF stays the real control.
+
+### i18n routing
+
+Locales are URL prefixes (`/tr/...`) configured in `astro.config`;
+UI strings come from a dictionary keyed by the path-derived locale;
+hreflang alternates declare equivalents to search engines. UI and
+content localization can progress independently.

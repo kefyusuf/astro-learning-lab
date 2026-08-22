@@ -50,11 +50,11 @@
 | **Multi-browser E2E** (Firefox/WebKit)                | ✅ done | Cross-engine behavior; WebKit's Tab-order platform behavior encoded as a documented skip                      |
 | **Coverage thresholds**                               | ✅ done | src/lib ≥ 90% enforced; fetch-boundary mocking added                                                          |
 | **Release automation**                                | ✅ done | release-please over conventional commits                                                                      |
-| Custom content loader (live loader)                   | ⬜ open | Beyond `glob()`: loading from an API/database with types                                                      |
-| Prefetch strategy                                     | ⬜ open | Link prefetching trade-offs on a zero-JS site                                                                 |
-| Sessions API + platform driver                        | ⬜ open | Server sessions on Workers KV vs Node filesystem                                                              |
-| Rate-limit middleware                                 | ⬜ open | Trigger documented in security.md (public Node exposure)                                                      |
-| i18n routing                                          | ⬜ open | Locale-prefixed routes, content localization                                                                  |
+| **Custom content loader**                             | ✅ done | Loader API end-to-end: async load, store.clear/set, slug-ids, loud validation failures (glossary)             |
+| **Prefetch strategy**                                 | ✅ done | hover-prefetch + ClientRouter = near-instant swaps for ~1.6 KB                                                |
+| **Sessions API**                                      | ✅ done | Astro.session visit counter; fs driver locally, auto-provisioned KV on Workers                                |
+| **Rate-limit middleware**                             | ✅ done | Fixed-window limiter (TDD), 429 + Retry-After on feedback POSTs; WAF = platform control                       |
+| **i18n routing**                                      | ✅ done | /tr locale slice: localized chrome + switcher + hreflang; content localization deferred                       |
 
 Not planned deliberately: Tailwind (vanilla CSS is the styling lesson),
 global state libraries (no demonstrated need), SPA-mode anything.

@@ -34,7 +34,9 @@
 astro:env schema · ClientRouter view transitions · astro:assets covers ·
 island component tests · Lighthouse CI gates · three-browser E2E ·
 coverage thresholds · Renovate · release-please · GitHub Pages static
-mirror (ADR-005) with base-path discipline.
+mirror (ADR-005) · custom glossary loader · prefetch · Sessions API ·
+rate limiting · i18n (/tr slice). Site LIVE at
+kefyusuf.github.io/astro-learning-lab.
 
 ## Final state
 
