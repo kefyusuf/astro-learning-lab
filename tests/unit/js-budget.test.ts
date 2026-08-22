@@ -48,13 +48,16 @@ const distClient = "dist/client";
 
 describe("javascript budget (build output)", () => {
   it.skipIf(!existsSync(distClient))(
-    "keeps total shipped JS under 200 KB uncompressed",
+    "keeps total shipped JS under 210 KB uncompressed",
     () => {
       const totalJs = collectJsSize(distClient);
+      // 188.5 KB (React island) + 15.9 KB (ClientRouter runtime, shared
+      // by every page - the accepted cost of client-side navigation,
+      // recorded in docs/learning/performance.md).
       expect(
         totalJs,
-        `${(totalJs / 1024).toFixed(1)} KB exceeds the 200 KB budget`,
-      ).toBeLessThan(200 * 1024);
+        `${(totalJs / 1024).toFixed(1)} KB exceeds the 210 KB budget`,
+      ).toBeLessThan(210 * 1024);
     },
   );
 

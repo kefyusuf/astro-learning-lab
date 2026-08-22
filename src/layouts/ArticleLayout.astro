@@ -67,11 +67,7 @@ const ogCoverURL = ogCoverSrc
     set:html={serializeJsonLd(jsonLd)}
     slot="head"
   />
-  {
-    ogCoverURL && (
-      <meta property="og:image" content={ogCoverURL} slot="head" />
-    )
-  }
+  {ogCoverURL && <meta property="og:image" content={ogCoverURL} slot="head" />}
   <article class="prose">
     {
       cover && (

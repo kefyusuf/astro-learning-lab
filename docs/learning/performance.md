@@ -6,18 +6,17 @@
 
 ## Measured facts (2026-08-21, Astro 7.2.4, uncompressed)
 
-| Metric                      | Value                                                                        |
-| --------------------------- | ---------------------------------------------------------------------------- |
-| Pages built                 | 19                                                                           |
-| Total shipped JS            | **188.5 KB** (~60 KB gzipped), all of it the React island on `/articles`     |
-| Pages with zero external JS | 18/19 (only `/articles*` loads framework JS)                                 |
-| Pages with zero JS at all   | 5 (404, guides ×3, status)                                                   |
-| FavoriteButton script       | ~0.8 KB **inlined** per card page (no extra request, deduplicated)           |
-| Server island loader        | ~2 small inline scripts on `/about` (fetches one fragment)                   |
-| CSS                         | Inlined into HTML (no render-blocking external stylesheet, no extra request) |
-| Average HTML page           | 10.6 KB (including inlined CSS)                                              |
-| Fonts                       | **Zero downloads** - system font stack                                       |
-| Images                      | favicon only                                                                 |
+| Metric                      | Value                                                                                                                   |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Pages built                 | 19                                                                                                                      |
+| Total shipped JS            | **204.4 KB** (~65 KB gzipped): React island 188.5 KB on `/articles` + ClientRouter runtime 15.9 KB shared by every page |
+| Pages with zero external JS | 0/19 since View Transitions - every page loads the shared 15.9 KB router (accepted, documented trade-off)               |
+| FavoriteButton script       | ~0.8 KB **inlined** per card page (no extra request, deduplicated)                                                      |
+| Server island loader        | ~2 small inline scripts on `/about` (fetches one fragment)                                                              |
+| CSS                         | Inlined into HTML (no render-blocking external stylesheet, no extra request)                                            |
+| Average HTML page           | ~10.6 KB (including inlined CSS)                                                                                        |
+| Fonts                       | **Zero downloads** - system font stack                                                                                  |
+| Images                      | Article covers as optimized responsive WebP via `astro:assets` (srcset 480/960/1200w, intrinsic dimensions)             |
 
 ## Why this is fast (the causal chain)
 
@@ -35,7 +34,7 @@
 
 ## Budgets (enforced by tests)
 
-- Total external JS < 200 KB uncompressed
+- Total external JS < 210 KB uncompressed (188.5 island + 15.9 ClientRouter)
 - Framework JS only on `/articles` routes
 - Inline scripts < 2.5 KB per page (< 8 KB on island pages - props scale with the searchable list)
 - Every page < 40 KB HTML including inlined CSS
