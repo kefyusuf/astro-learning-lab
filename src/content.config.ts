@@ -21,10 +21,15 @@ const pubMetadata = {
 
 const articles = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/articles" }),
-  schema: z.object({
-    ...pubMetadata,
-    featured: z.boolean().default(false),
-  }),
+  // The image helper arrives via the schema function: frontmatter paths
+  // relative to the entry file become typed ImageMetadata.
+  schema: ({ image }) =>
+    z.object({
+      ...pubMetadata,
+      featured: z.boolean().default(false),
+      cover: image().optional(),
+      coverAlt: z.string().default("Article cover illustration"),
+    }),
 });
 
 const guides = defineCollection({

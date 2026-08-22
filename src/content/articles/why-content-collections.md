@@ -5,6 +5,8 @@ pubDate: 2026-08-18
 author: edsger-dijkstra
 topics: [content]
 featured: true
+cover: ../../assets/articles/content-collections.jpg
+coverAlt: "Abstract green and teal gradient cover with the article title"
 ---
 
 Treating Markdown as random files works until a frontmatter typo ships a broken page. Content Collections solve this by validating every entry against a zod schema at build time: a missing `pubDate` or an invalid date string fails the build, not the reader.

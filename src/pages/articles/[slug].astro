@@ -32,6 +32,8 @@ const minutes = readingTime(entry.body ?? "");
   updatedDate={entry.data.updatedDate}
   canonicalPath={`/articles/${entry.id}/`}
   authorName={author?.data.name}
+  cover={entry.data.cover}
+  coverAlt={entry.data.coverAlt}
 >
   <p class="byline">
     By {author?.data.name} · {minutes} min read

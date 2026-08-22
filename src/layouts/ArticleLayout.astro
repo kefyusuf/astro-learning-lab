@@ -1,4 +1,6 @@
 ---
+import { getImage, Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import BaseLayout from "./BaseLayout.astro";
 import { serializeJsonLd } from "../lib/serialize-json-ld";
 
@@ -11,10 +13,21 @@ interface Props {
   canonicalPath: string;
   /** Author name for structured data. */
   authorName?: string;
+  /** Optional cover image from the collection frontmatter. */
+  cover?: ImageMetadata;
+  coverAlt?: string;
 }
 
-const { title, description, pubDate, updatedDate, canonicalPath, authorName } =
-  Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  canonicalPath,
+  authorName,
+  cover,
+  coverAlt = "Article cover illustration",
+} = Astro.props;
 
 const format = (date: Date) =>
   date.toLocaleDateString("en-US", {
@@ -32,6 +45,13 @@ const jsonLd = {
   dateModified: (updatedDate ?? pubDate).toISOString(),
   author: authorName ? { "@type": "Person", name: authorName } : undefined,
 };
+
+// Absolute URL for social cards. getImage() runs the build-time
+// optimization pipeline and returns the final src.
+const ogCoverSrc = cover ? (await getImage({ src: cover })).src : undefined;
+const ogCoverURL = ogCoverSrc
+  ? new URL(ogCoverSrc, Astro.site ?? Astro.url)
+  : undefined;
 ---
 
 <BaseLayout
@@ -47,7 +67,24 @@ const jsonLd = {
     set:html={serializeJsonLd(jsonLd)}
     slot="head"
   />
+  {
+    ogCoverURL && (
+      <meta property="og:image" content={ogCoverURL} slot="head" />
+    )
+  }
   <article class="prose">
+    {
+      cover && (
+        <Image
+          src={cover}
+          alt={coverAlt}
+          widths={[480, 960, 1200]}
+          sizes="(min-width: 48rem) 46rem, 100vw"
+          loading="eager"
+          class="cover"
+        />
+      )
+    }
     <header>
       <h1>{title}</h1>
       <p class="meta">

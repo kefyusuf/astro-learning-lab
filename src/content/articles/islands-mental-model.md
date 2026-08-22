@@ -4,6 +4,8 @@ description: "Why Astro ships zero JavaScript unless a component explicitly asks
 pubDate: 2026-08-16
 author: ada-lovelace
 topics: [islands]
+cover: ../../assets/articles/islands.jpg
+coverAlt: "Abstract pink and amber gradient cover with the article title"
 ---
 
 An island is a framework component - React, Svelte, Vue - embedded in an otherwise static page. Without a `client:*` directive, the framework component renders to HTML and its JavaScript is discarded. Add `client:visible` and only that component's JS ships, hydrating only when scrolled into view.

@@ -38,10 +38,9 @@ export default defineConfig({
   adapter:
     deployTarget === "cloudflare"
       ? cloudflare({
-          // No content images today: passthrough avoids provisioning the
-          // Cloudflare Images binding. Switch to the default
-          // 'cloudflare-binding' when real image optimization is needed.
-          imageService: "passthrough",
+          // 'compile': images on prerendered routes are optimized at
+          // BUILD time - workerd needs no image binding at runtime.
+          imageService: "compile",
         })
       : node({ mode: "standalone" }),
   // No server sessions in this project (favorites are client-side,

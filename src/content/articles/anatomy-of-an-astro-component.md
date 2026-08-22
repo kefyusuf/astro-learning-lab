@@ -5,6 +5,8 @@ pubDate: 2026-08-10
 author: ada-lovelace
 topics: [fundamentals]
 featured: true
+cover: ../../assets/articles/component-anatomy.jpg
+coverAlt: "Abstract violet and blue gradient cover with the article title"
 ---
 
 Every `.astro` file has the same shape: an optional frontmatter fence, then a template. The fence is where the interesting contract lives - everything inside it executes while the page is being rendered on the server or at build time, and **none of it is ever sent to the browser**.
