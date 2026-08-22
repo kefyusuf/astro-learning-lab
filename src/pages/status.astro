@@ -15,6 +15,13 @@ const formatUptime = (seconds: number) => {
   const minutes = Math.floor((seconds % 3600) / 60);
   return `${hours}h ${minutes}m`;
 };
+
+// Sessions API: per-visitor state that lives server-side (Node:
+// filesystem driver; Cloudflare: auto-provisioned KV). Cookies carry
+// only an opaque session id - no client JS involved.
+const visits =
+  (((await Astro.session?.get("visits")) as number | undefined) ?? 0) + 1;
+await Astro.session?.set("visits", visits);
 ---
 
 <BaseLayout
@@ -46,6 +53,10 @@ const formatUptime = (seconds: number) => {
       <div>
         <dt>Rendering mode</dt>
         <dd>On-demand (dynamic)</dd>
+      </div>
+      <div>
+        <dt>Your visits (session)</dt>
+        <dd data-visits>{visits}</dd>
       </div>
     </dl>
   </div>

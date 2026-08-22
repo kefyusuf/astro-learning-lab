@@ -57,10 +57,10 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "hover",
   },
-  // No server sessions in this project (favorites are client-side,
-  // action results ride the POST response). Disabling keeps the
-  // Workers build from provisioning a KV namespace.
-  session: false,
+  // Server sessions enabled: /status demonstrates Astro.session with the
+  // Node filesystem driver. On Cloudflare the adapter auto-provisions a
+  // KV namespace for the same API.
+  // session: false,
   // Stable in Astro 7: route-level caching for on-demand routes.
   // /api/articles is cached for 5 minutes, then revalidated in the
   // background (stale-while-revalidate) for up to a minute.
