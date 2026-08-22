@@ -36,6 +36,9 @@ const countForTopic = (topicId: string) =>
 <BaseLayout
   title="astro-learning-lab - learn Astro by building"
   description="A developer knowledge platform built to learn Astro from zero - articles, guides and topics rendered to plain HTML."
+  alternates={[
+    { locale: "tr", url: new URL(withBase("/tr/"), Astro.site ?? Astro.url) },
+  ]}
 >
   <Hero
     title="Learn Astro by building a real content platform"

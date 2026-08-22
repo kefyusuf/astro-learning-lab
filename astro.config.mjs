@@ -50,6 +50,11 @@ export default defineConfig({
           imageService: "compile",
         })
       : node({ mode: "standalone" }),
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "tr"],
+    routing: { prefixDefaultLocale: false },
+  },
   // Link prefetching: hover/focus on internal links starts fetching the
   // next page so ClientRouter swaps are near-instant. Adds a ~1 KB
   // script to every page - recorded in the JS budget.

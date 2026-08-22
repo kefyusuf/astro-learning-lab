@@ -14,6 +14,8 @@ interface Props {
   ogType?: "website" | "article";
   publishedTime?: Date;
   updatedTime?: Date;
+  /** hreflang alternates: [{ locale, url }] */
+  alternates?: { locale: string; url: URL }[];
 }
 
 const {
@@ -25,6 +27,7 @@ const {
   ogType,
   publishedTime,
   updatedTime,
+  alternates,
 } = Astro.props;
 
 const canonicalURL = new URL(withBase(canonicalPath), Astro.site ?? Astro.url);
@@ -47,6 +50,7 @@ const canonicalURL = new URL(withBase(canonicalPath), Astro.site ?? Astro.url);
       ogType={ogType}
       publishedTime={publishedTime}
       updatedTime={updatedTime}
+      alternates={alternates}
     />
     <slot name="head" />
   </head>

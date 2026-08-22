@@ -1,0 +1,150 @@
+---
+import { getCollection } from "astro:content";
+import { withBase } from "../../lib/base";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import TopicCard from "../../components/TopicCard.astro";
+import { uiFor } from "../../lib/i18n";
+import { isPublished, sortByPubDateDesc } from "../../lib/content";
+import { fetchRepoStats } from "../../lib/stats";
+
+const t = uiFor("tr");
+
+// i18n slice: chrome strings are Turkish; article content stays
+// English until full content localization is needed.
+const featured = sortByPubDateDesc(
+  (await getCollection("articles", isPublished)).filter(
+    (article) => article.data.featured,
+  ),
+).slice(0, 3);
+
+const latest = sortByPubDateDesc(
+  await getCollection("articles", isPublished),
+).slice(0, 3);
+
+const topics = (await getCollection("topics")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const articles = await getCollection("articles", isPublished);
+const repoStats = await fetchRepoStats();
+
+const countForTopic = (topicId: string) =>
+  articles.filter((article) =>
+    article.data.topics.some((ref) => ref.id === topicId),
+  ).length;
+
+// Localized topic cards keep the English topic names/descriptions for now.
+const trTopics = topics.map((topic) => ({
+  slug: topic.id,
+  name: topic.data.name,
+  description: topic.data.description,
+  count: countForTopic(topic.id),
+}));
+---
+
+<BaseLayout
+  title="astro-learning-lab - Astro'yu kurarak öğrenin"
+  description="Astro'yu sıfırdan öğrenmek için faz faz inşa edilen geliştirici bilgi platformu."
+>
+  <Hero title={t.heroTitle} description={t.heroDesc}>
+    <p class="cta">
+      <a class="button" href={withBase("/tr/articles/")}>{t.browse}</a>
+    </p>
+  </Hero>
+
+  <section aria-labelledby="featured-heading-tr">
+    <h2 id="featured-heading-tr">{t.featured}</h2>
+    <div class="grid">
+      {featured.map((article) => <ArticleCard article={article} />)}
+    </div>
+  </section>
+
+  <section aria-labelledby="latest-heading-tr">
+    <h2 id="latest-heading-tr">{t.latest}</h2>
+    <div class="grid">
+      {latest.map((article) => <ArticleCard article={article} />)}
+    </div>
+  </section>
+
+  <section aria-labelledby="topics-heading-tr">
+    <h2 id="topics-heading-tr">{t.topicsHeading}</h2>
+    <div class="grid">
+      {trTopics.map((topic) => <TopicCard topic={topic} />)}
+    </div>
+  </section>
+
+  <section aria-labelledby="stats-heading-tr">
+    <h2 id="stats-heading-tr">{t.statsHeading}</h2>
+    <div class="stats">
+      <div class="stat">
+        <span class="value">{repoStats.stars.toLocaleString("en-US")}</span>
+        <span class="label">GitHub yıldızı</span>
+      </div>
+      <div class="stat">
+        <span class="value">
+          {repoStats.openIssues.toLocaleString("en-US")}
+        </span>
+        <span class="label">Açık konu</span>
+      </div>
+      <p class="provenance">
+        <em>Build zamanında alındı.</em>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    padding-block: 1.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+
+  .button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-fg);
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .cta {
+    margin-top: 1.5rem;
+  }
+
+  .stats {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    background: var(--card-bg);
+  }
+
+  .stat .value {
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .stat .label {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
+  }
+
+  .provenance {
+    margin: 0;
+    margin-left: auto;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+  }
+</style>

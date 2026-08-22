@@ -101,6 +101,7 @@ export function glossaryLoader(
         // schemas on glob-loaded collections.
         throw new Error(
           `glossary invalid: ${error instanceof Error ? error.message : error}`,
+          { cause: error },
         );
       }
     },

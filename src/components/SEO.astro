@@ -12,6 +12,8 @@ interface Props {
   ogType?: "website" | "article";
   publishedTime?: Date;
   updatedTime?: Date;
+  /** hreflang alternates: [{ locale, url }] */
+  alternates?: { locale: string; url: URL }[];
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   ogType = "website",
   publishedTime,
   updatedTime,
+  alternates,
 } = Astro.props;
 
 const siteName = "astro-learning-lab";
@@ -52,6 +55,12 @@ const siteName = "astro-learning-lab";
       content={updatedTime.toISOString()}
     />
   )
+}
+
+{
+  alternates?.map((alt) => (
+    <link rel="alternate" hreflang={alt.locale} href={alt.url} />
+  ))
 }
 
 <!-- Twitter -->
