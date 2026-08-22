@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# wrangler local state (dev leftovers). Keep deploy/config.json
+# tracked - Cloudflare recommends committing it.
+.wrangler/*
+!.wrangler/deploy/
+.wrangler/deploy/*
+!.wrangler/deploy/config.json
