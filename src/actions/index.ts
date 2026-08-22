@@ -1,12 +1,12 @@
 import { defineAction } from "astro:actions";
+import { FEEDBACK_WEBHOOK_URL } from "astro:env/server";
 import { feedbackSchema } from "../lib/feedback-schema";
 
 /**
- * Server-only configuration. Variables without the PUBLIC_ prefix are
- * never bundled for the browser - this URL would leak if it were.
+ * FEEDBACK_WEBHOOK_URL comes from the typed astro:env schema
+ * (server context, secret access): validated at build time, never
+ * bundled for the browser - enforced by the schema, not by convention.
  */
-const FEEDBACK_WEBHOOK_URL = import.meta.env.FEEDBACK_WEBHOOK_URL as
-  string | undefined;
 
 async function forwardToWebhook(input: {
   email: string;
