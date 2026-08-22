@@ -1,0 +1,11 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+# Indentation is owned by Prettier (.prettierrc.json) - do not set
+# indent rules here to avoid editor/formatter fights.
+[*.md]
+trim_trailing_whitespace = false

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "rangeStrategy": "bump",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "description": "Astro majors need manual attention (breaking changes are part of the curriculum)",
+      "matchPackageNames": ["astro"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "groupName": "playwright",
+      "matchPackagePatterns": ["playwright"],
+      "automerge": true
+    }
+  ],
+  "timezone": "Europe/Istanbul",
+  "schedule": ["before 8am on monday"]
+}

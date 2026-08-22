@@ -37,3 +37,26 @@
 - TDD where it adds value (pure logic: RED→GREEN→REFACTOR; UI: behavior-level tests).
 - No unnecessary client JS, no premature abstraction, no security theater.
 - Learning checkpoint after each phase: what/why/Next.js-difference/files/tests/commands/commit + 3-5 quiz questions.
+
+## Phase 24+ - Extension backlog (post-curriculum)
+
+Repo-hygiene items land as needed; learning extensions below are ordered
+by teaching value:
+
+| Topic                                                 | Why it teaches something new                                                                                            |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **`astro:env`**                                       | Typed, validated environment schema (`import.meta.env` strings today); compile-time guarantees for PUBLIC_/server split |
+| **View Transitions (`ClientRouter`)**                 | Client-side navigation while staying HTML-first; island persistence across navigations                                  |
+| **`astro:assets` `<Image />` + real content images**  | Image optimization pipeline, formats, layout-shift discipline; activates the Cloudflare Images binding decision         |
+| **Island component tests** (`@testing-library/react`) | Testing hydration units in isolation vs whole-page E2E                                                                  |
+| **Lighthouse CI**                                     | Core Web Vitals regression gates alongside the JS budget tests                                                          |
+| **Multi-browser E2E** (Firefox/WebKit)                | Cross-engine behavior of islands, CSS, forms                                                                            |
+| **Custom content loader** (live loader)               | Beyond `glob()`: loading from an API/database with types                                                                |
+| **Prefetch strategy**                                 | Link prefetching trade-offs on a zero-JS site                                                                           |
+| **Sessions API + platform driver**                    | Server sessions on Workers KV vs Node filesystem                                                                        |
+| **Rate-limit middleware**                             | Trigger already documented in security.md (public Node exposure)                                                        |
+| **i18n routing**                                      | Locale-prefixed routes, content localization                                                                            |
+| **Release automation** (release-please / changesets)  | Conventional commits → changelog + versions                                                                             |
+
+Not planned deliberately: Tailwind (vanilla CSS is the styling lesson),
+global state libraries (no demonstrated need), SPA-mode anything.
