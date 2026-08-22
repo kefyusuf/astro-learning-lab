@@ -1,0 +1,37 @@
+[
+  {
+    "term": "Island",
+    "definition": "An interactive component that ships its own JavaScript and hydrates independently of the rest of the page.",
+    "seeAlso": ["Partial Hydration", "Client Directive"]
+  },
+  {
+    "term": "Partial Hydration",
+    "definition": "Shipping and hydrating JavaScript for individual components instead of the entire page.",
+    "seeAlso": ["Island"]
+  },
+  {
+    "term": "Prerender",
+    "definition": "Rendering a route to HTML at build time so serving it requires no server work.",
+    "seeAlso": ["On-Demand Rendering"]
+  },
+  {
+    "term": "On-Demand Rendering",
+    "definition": "Rendering a route per request in a server runtime, chosen per route with `export const prerender = false`.",
+    "seeAlso": ["Prerender"]
+  },
+  {
+    "term": "Server Island",
+    "definition": "A request-time server fragment inside an otherwise static page, injected without client JavaScript.",
+    "seeAlso": ["Island"]
+  },
+  {
+    "term": "Content Collection",
+    "definition": "A typed, schema-validated content pipeline with query helpers, defined in content.config.ts.",
+    "seeAlso": ["Custom Loader"]
+  },
+  {
+    "term": "Custom Loader",
+    "definition": "Your own data pipeline for a collection: parsing, id generation and validation live in your code.",
+    "seeAlso": ["Content Collection"]
+  }
+]

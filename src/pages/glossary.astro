@@ -1,0 +1,94 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+/** Every term, alphabetized. Entries come from the custom loader. */
+const terms = (await getCollection("glossary")).sort((a, b) =>
+  a.data.term.localeCompare(b.data.term),
+);
+---
+
+<BaseLayout
+  title="Glossary · astro-learning-lab"
+  description="Astro terminology used across astro-learning-lab - islands, prerendering, loaders and more."
+>
+  <div class="page">
+    <h1>Glossary</h1>
+    <p>
+      {terms.length} terms from the project's custom content loader - parsed, id-generated
+      and validated by our own loader code.
+    </p>
+
+    <dl class="terms">
+      {
+        terms.map((entry) => (
+          <div class="term" id={entry.id}>
+            <dt>{entry.data.term}</dt>
+            <dd>
+              {entry.data.definition}
+              {entry.data.seeAlso.length > 0 && (
+                <p class="see-also">
+                  See also:{" "}
+                  {entry.data.seeAlso.map((ref) => (
+                    <a
+                      href={`#${ref.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                    >
+                      {ref}
+                    </a>
+                  ))}
+                </p>
+              )}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--prose-width);
+    padding-block: 2.5rem 1rem;
+  }
+
+  .page > p {
+    color: var(--fg-muted);
+  }
+
+  .terms {
+    margin-block: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .term {
+    border-left: 3px solid var(--border);
+    padding-inline-start: 1rem;
+  }
+
+  dt {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  dd {
+    margin: 0.25rem 0 0;
+    color: var(--fg-muted);
+  }
+
+  .see-also {
+    margin-block-start: 0.35rem;
+    font-size: 0.88rem;
+  }
+
+  .see-also a {
+    text-decoration: none;
+    margin-inline-end: 0.4rem;
+  }
+
+  .term:target {
+    border-left-color: var(--accent);
+  }
+</style>

@@ -1,5 +1,6 @@
 import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
+import { glossaryLoader } from "./loaders/glossary";
 import { z } from "astro/zod";
 
 /**
@@ -59,4 +60,15 @@ const topics = defineCollection({
   }),
 });
 
-export const collections = { articles, guides, authors, topics };
+// Custom loader (see src/loaders/glossary.ts): the JSON file is plain
+// data - parsing, id generation and validation happen in OUR code.
+const glossary = defineCollection({
+  loader: glossaryLoader(),
+  schema: z.object({
+    term: z.string(),
+    definition: z.string(),
+    seeAlso: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { articles, guides, authors, topics, glossary };
