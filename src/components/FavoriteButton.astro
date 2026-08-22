@@ -116,19 +116,32 @@ const { articleId, articleTitle } = Astro.props;
     }
   }
 
-  for (const button of document.querySelectorAll<HTMLButtonElement>(
-    "[data-favorite]",
-  )) {
-    button.addEventListener("click", () => {
-      const id = button.dataset.articleId ?? "";
-      const favorites = readFavorites();
-      const next = favorites.includes(id)
-        ? favorites.filter((favorite) => favorite !== id)
-        : [...favorites, id];
-      writeFavorites(next);
-    });
+  // View-transitions aware: the module executes once per full page
+  // load, but ClientRouter swaps the DOM on client-side navigations.
+  // Re-bind listeners for each swapped-in set of buttons; old nodes
+  // (and their listeners) are discarded by the swap.
+  function bindButtons(): void {
+    for (const button of document.querySelectorAll<HTMLButtonElement>(
+      "[data-favorite]",
+    )) {
+      if (button.dataset.bound === "true") continue;
+      button.dataset.bound = "true";
+      button.addEventListener("click", () => {
+        const id = button.dataset.articleId ?? "";
+        const favorites = readFavorites();
+        const next = favorites.includes(id)
+          ? favorites.filter((favorite) => favorite !== id)
+          : [...favorites, id];
+        writeFavorites(next);
+      });
+    }
   }
 
+  document.addEventListener("astro:after-swap", () => {
+    bindButtons();
+    syncAll();
+  });
   document.addEventListener("favorites:changed", syncAll);
+  bindButtons();
   syncAll();
 </script>
