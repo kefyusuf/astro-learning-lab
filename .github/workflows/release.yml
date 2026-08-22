@@ -1,0 +1,25 @@
+name: Release
+
+# release-please turns Conventional Commits into a versioned release
+# with a maintained CHANGELOG.md. Merging its release PR bumps the
+# version and publishes the GitHub release.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          release-type: node
+          # The repo ships an app, not a library: keep versions in
+          # package.json without publishing to npm.
+          skip-github-release: false

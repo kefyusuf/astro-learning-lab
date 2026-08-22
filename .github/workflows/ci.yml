@@ -51,6 +51,28 @@ jobs:
       - name: E2E tests
         run: pnpm test:e2e
 
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: verify
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Lighthouse CI
+        run: pnpm exec lhci autorun
+
   docker:
     runs-on: ubuntu-latest
     timeout-minutes: 20
