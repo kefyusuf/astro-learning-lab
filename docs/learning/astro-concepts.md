@@ -201,6 +201,8 @@ project compiles at build time on both targets.
 
 ### Island component testing
 
+_(Entry kept for reference - the testing-library layer was removed in a later simplification pass.)_
+
 Islands are ordinary framework components: `@testing-library/react` +
 happy-dom tests hydration units (filtering, states, accessibility roles)
 in isolation, complementing page-level Playwright E2E. In Vite 8, JSX

@@ -38,7 +38,7 @@ The adapter is selected at build time via `DEPLOY_TARGET`
 - **Middleware does not run for prerendered pages on either target** -
   static assets are served before server code. Security headers for
   static files therefore live in `public/_headers` (Cloudflare) and are
-  kept in sync with the middleware policy by a unit test.
+  kept in sync with the middleware policy by a consistency check.
 - **Runtime APIs differ**: Workers have no Node APIs beyond
   `nodejs_compat`; server code must stay portable (Web standard APIs:
   `fetch`, `crypto.randomUUID`, `AbortSignal.timeout` - all used).

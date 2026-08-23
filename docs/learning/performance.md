@@ -1,7 +1,9 @@
 # Performance - Evidence, Not Marketing
 
 > "Why is this Astro site fast?" - answered with measurements from the
-> actual build output, re-verified by `tests/unit/js-budget.test.ts`
+> actual build output at the time of writing. The vitest/unit layer was
+> removed in a later simplification pass, so these are documented targets
+> now - re-introduce an enforcement script if the site grows again.
 > on every build.
 
 ## Measured facts (2026-08-21, Astro 7.2.4, uncompressed)

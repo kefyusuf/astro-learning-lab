@@ -9,7 +9,7 @@
 ## Checklist
 
 - [ ] `pnpm format:check` `pnpm lint` `pnpm check` green
-- [ ] Unit tests green (coverage thresholds hold)
+- [ ] Playwright e2e green against the preview build
 - [ ] `pnpm build` green
 - [ ] `pnpm test:e2e` green
 - [ ] No new client JS without an island-registry entry (`docs/learning/islands.md`)

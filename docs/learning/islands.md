@@ -42,7 +42,7 @@
 ## Budget
 
 - Pages with no interactive feature ship **zero** client JavaScript
-  (enforced by `tests/unit/js-budget.test.ts` against the build output).
+  (checked against the build output at review time).
 - Card pages carry only the ~0.8 KB inlined favorites script.
 - Interactive pages carry only the islands they use, hydrated with the weakest
   strategy that satisfies the UX.

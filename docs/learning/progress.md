@@ -37,7 +37,7 @@ coverage thresholds · Renovate · release-please · Site LIVE at
 
 ## Final state
 
-- **42 unit tests, 43 E2E tests** - all green
+- **Playwright e2e suite** green across chromium/firefox/webkit (the vitest unit layer was removed in the post-review simplification)
 - **format / lint / typecheck / build / container** - all green
 - **19 prerendered + 3 on-demand routes + 1 server island**, zero unnecessary client JS (budget-enforced)
 - Full curriculum: `docs/learning/roadmap.md` · concepts: `docs/learning/astro-concepts.md`

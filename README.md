@@ -51,8 +51,6 @@ server islands. Rendering is decided **per route**. See
 │   ├── styles/            # global design tokens (CSS-only dark mode)
 │   └── middleware.ts      # request id, security headers, structured logs
 ├── tests/
-│   ├── unit/              # Vitest - pure logic + build-output budget checks
-│   └── e2e/               # Playwright - behavior-level specs vs preview build
 ├── astro.config.mjs       # adapter chosen by DEPLOY_TARGET (node|cloudflare)
 ├── Dockerfile             # multi-stage, non-root Node runtime
 ├── compose.yaml           # local container run with healthcheck
@@ -61,19 +59,17 @@ server islands. Rendering is decided **per route**. See
 
 ## Commands
 
-| Command              | Action                                          |
-| :------------------- | :---------------------------------------------- |
-| `pnpm install`       | Install dependencies                            |
-| `pnpm dev`           | Start dev server at `localhost:4321`            |
-| `pnpm build`         | Production build to `./dist/`                   |
-| `pnpm preview`       | Preview the production build locally            |
-| `pnpm check`         | Type-check `.astro` + TypeScript                |
-| `pnpm lint`          | ESLint                                          |
-| `pnpm format`        | Prettier (write)                                |
-| `pnpm format:check`  | Prettier (CI check)                             |
-| `pnpm test`          | Unit tests (Vitest) - includes JS budget checks |
-| `pnpm test:coverage` | Unit tests with coverage thresholds (src/lib)   |
-| `pnpm test:e2e`      | End-to-end tests (Playwright)                   |
+| Command             | Action                               |
+| :------------------ | :----------------------------------- |
+| `pnpm install`      | Install dependencies                 |
+| `pnpm dev`          | Start dev server at `localhost:4321` |
+| `pnpm build`        | Production build to `./dist/`        |
+| `pnpm preview`      | Preview the production build locally |
+| `pnpm check`        | Type-check `.astro` + TypeScript     |
+| `pnpm lint`         | ESLint                               |
+| `pnpm format`       | Prettier (write)                     |
+| `pnpm format:check` | Prettier (CI check)                  |
+| `pnpm test:e2e`     | End-to-end tests (Playwright)        |
 
 CI runs the same sequence plus dependency audit and a Docker image build.
 
@@ -90,7 +86,6 @@ Docker and Cloudflare are both kept working.
 
 ## Testing & quality gates
 
-- **Unit** (Vitest): pure logic, action schemas, security policies, build-output JS budgets - `src/lib` coverage ≥ 90% enforced
 - **E2E** (Playwright): behavior-level specs on **Chromium, Firefox and WebKit** against the production preview - including a JavaScript-disabled progressive-enhancement test and axe-core accessibility scans (zero violations)
 - **Lighthouse CI**: performance ≥ 0.9, a11y ≥ 0.95, best-practices ≥ 0.9, seo ≥ 0.9 category gates
 - **Renovate** keeps dependencies fresh; Astro majors are reviewed manually on purpose

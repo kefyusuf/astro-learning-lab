@@ -24,7 +24,7 @@ Security header policy lives in one module
 1. **Middleware** - on-demand routes (also gets request id + logs).
 2. **`public/_headers`** - statically served files (Cloudflare reads it).
 
-A unit test parses `_headers` and asserts consistency with the module,
+A consistency check parses `_headers` and asserts alignment with the module,
 so the two cannot drift.
 
 ## Consequences

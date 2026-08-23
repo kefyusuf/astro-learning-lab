@@ -1,5 +1,9 @@
 # Production Review
 
+> Snapshot notice: this audit reflects the Phase 23 state. In a later
+> simplification pass the vitest/unit-test layer was removed; behavioral
+> coverage now lives entirely in the Playwright e2e suite. Counts cited
+> below are historical.
 > The pre-completion audit required by the curriculum. Every claim
 > below is backed by a test, a document, or a named limitation.
 

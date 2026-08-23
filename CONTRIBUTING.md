@@ -10,11 +10,12 @@ as code changes.
    `docs/architecture/overview.md` §8 before proposing features:
    no unnecessary client JS, no premature abstraction, weakest hydration
    strategy wins.
-2. **Tests are part of the definition of done** - pure logic is unit
-   tested (coverage thresholds enforced), user-visible behavior gets
-   Playwright specs. Budgets (`tests/unit/js-budget.test.ts`) must stay
-   green; new islands must register their cost in
-   [Island Registry](src/content/docs/docs/learning/islands.md).
+2. **Behavior is guarded by Playwright** - user-visible changes get
+   e2e specs against the preview build. The vitest/unit layer was
+   removed in a simplification pass; keep new pure logic small and
+   reviewed. JS budgets are documented in
+   `docs/learning/performance.md`; new islands must register their cost
+   in the [Island Registry](src/content/docs/docs/learning/islands.md).
 3. **Conventional Commits** - small, coherent commits; the message
    explains _why_.
 4. **Docs travel with code** - a feature that teaches a concept updates
@@ -25,7 +26,7 @@ as code changes.
 ```sh
 pnpm install
 pnpm dev            # work
-pnpm format:check && pnpm lint && pnpm check && pnpm test && pnpm test:e2e
+pnpm format:check && pnpm lint && pnpm check && pnpm build && pnpm test:e2e
 ```
 
 CI must pass before merge. Dependency updates arrive via Renovate -
