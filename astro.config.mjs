@@ -54,8 +54,10 @@ export default defineConfig({
       title: "astro-learning-lab",
       // The docs hub is English-only for now - keeps the Pages mirror
       // free of fallback-locale duplicates.
-      locales: { en: { label: "English" } },
-      defaultLocale: "en",
+      // Single-language docs: no locales config = root-mode, no /en
+      // prefixes and no language switcher. (An explicit locales object
+      // here made Starlight emit locale-prefixed links to routes that
+      // were never generated - the source of the 404s.)
       description:
         "Engineering documentation for the astro-learning-lab curriculum.",
       social: [

@@ -18,5 +18,5 @@ and impact assessment. You will receive an initial response within 7 days.
 ## Scope notes
 
 This is a learning project, but the review bar is real:
-`docs/architecture/security.md` records implemented controls, platform
+`the Security Review (https://kefyusuf.github.io/astro-learning-lab/docs/architecture/security/)` records implemented controls, platform
 delegations and deferred items with their triggers.

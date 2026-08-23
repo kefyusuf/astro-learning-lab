@@ -26,7 +26,7 @@ Astro renders components to HTML at build time or on the server. The site
 ships **zero client JavaScript by default**; interactivity is added only
 through small, lazily-hydrated islands, and dynamic server fragments use
 server islands. Rendering is decided **per route**. See
-[docs/architecture/overview.md](docs/architecture/overview.md).
+[docs/architecture/overview.md](https://kefyusuf.github.io/astro-learning-lab/docs/architecture/overview/).
 
 ## Project structure
 
@@ -107,12 +107,12 @@ pnpm exec wrangler dev                            # local Workers runtime (no ac
 ```
 
 - **Cloudflare Workers + Static Assets** is the primary production target:
-  [docs/deployment/cloudflare.md](docs/deployment/cloudflare.md) covers
+  [docs/deployment/cloudflare.md](https://kefyusuf.github.io/astro-learning-lab/docs/deployment/cloudflare/) covers
   build, secrets, routing, caching, logs and rollback. Deploys are
   automated by `.github/workflows/deploy.yml` after CI passes.
 - **GitHub Pages** - a static mirror at
   `https://kefyusuf.github.io/astro-learning-lab/` (no server features;
-  see [docs/deployment/github-pages.md](docs/deployment/github-pages.md)).
+  see [docs/deployment/github-pages.md](https://kefyusuf.github.io/astro-learning-lab/docs/deployment/github-pages/)).
 - **Docker / Node** provides reproducible CI validation and alternate
   hosting.
 
