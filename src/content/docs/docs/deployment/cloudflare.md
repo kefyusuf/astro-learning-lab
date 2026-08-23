@@ -1,3 +1,7 @@
+---
+title: "Deploying to Cloudflare Workers"
+---
+
 # Deployment - Cloudflare Workers (primary target)
 
 > Verified against the Cloudflare Workers framework guide and the

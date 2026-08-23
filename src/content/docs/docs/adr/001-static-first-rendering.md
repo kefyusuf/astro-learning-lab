@@ -1,3 +1,7 @@
+---
+title: "ADR-001: Astro as the default rendering layer, static-first"
+---
+
 # ADR-001: Astro as the default rendering layer, static-first
 
 ## Status

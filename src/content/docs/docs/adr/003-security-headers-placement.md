@@ -1,3 +1,7 @@
+---
+title: "ADR-003: Security headers split between middleware and hosting layer"
+---
+
 # ADR-003: Security headers split between middleware and hosting layer
 
 ## Status

@@ -1,3 +1,7 @@
+---
+title: "ADR-002: Client islands policy - React only for genuine interactivity"
+---
+
 # ADR-002: Client islands policy - React only for genuine interactivity
 
 ## Status

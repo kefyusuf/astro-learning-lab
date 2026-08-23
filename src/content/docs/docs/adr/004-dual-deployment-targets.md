@@ -1,3 +1,7 @@
+---
+title: "ADR-004: Dual Deployment Targets - Cloudflare Workers (primary) and Docker/Node (validation + portability)"
+---
+
 # ADR-004: Dual Deployment Targets - Cloudflare Workers (primary) and Docker/Node (validation + portability)
 
 ## Status

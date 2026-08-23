@@ -8,6 +8,8 @@ const t = uiFor(locale);
 interface NavLink {
   href: string;
   label: string;
+  /** Forces a full page load - used at the Starlight layout boundary. */
+  reload?: boolean;
 }
 
 const links: NavLink[] = [
@@ -16,6 +18,9 @@ const links: NavLink[] = [
   { href: withBase("/topics/"), label: t.nav.topics },
   { href: withBase("/glossary/"), label: t.nav.glossary },
   { href: withBase("/about/"), label: t.nav.about },
+  // Full reload into the Starlight docs shell: two layout systems do
+  // not share the client router.
+  { href: withBase("/docs/"), label: "Docs", reload: true },
 ];
 
 // Locale-prefixed paths (e.g. /tr/articles/) keep the current page's
@@ -40,6 +45,7 @@ function isActive(href: string, current: string): boolean {
             <li>
               <a
                 href={link.href}
+                data-astro-reload={link.reload ? "" : undefined}
                 aria-current={
                   isActive(link.href, currentPath) ? "page" : undefined
                 }

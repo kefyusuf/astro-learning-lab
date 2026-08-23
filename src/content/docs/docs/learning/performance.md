@@ -1,3 +1,7 @@
+---
+title: "Performance Evidence"
+---
+
 # Performance - Evidence, Not Marketing
 
 > "Why is this Astro site fast?" - answered with measurements from the

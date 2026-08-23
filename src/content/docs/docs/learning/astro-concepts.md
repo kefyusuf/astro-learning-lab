@@ -1,3 +1,7 @@
+---
+title: "Astro Concepts Glossary"
+---
+
 # Astro Concepts - Living Glossary
 
 > Updated continuously as phases progress. Each entry: **what it is → what problem it

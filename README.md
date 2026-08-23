@@ -116,25 +116,9 @@ pnpm exec wrangler dev                            # local Workers runtime (no ac
 - **Docker / Node** provides reproducible CI validation and alternate
   hosting.
 
-## Learning documentation
+## Documentation
 
-- [Architecture overview](docs/architecture/overview.md) - mental model,
-  rendering rules, guardrails
-- [ADRs](docs/adr/) - rendering layer, islands policy, header placement,
-  dual deployment targets
-- [Security review](docs/architecture/security.md) ·
-  [Production review](docs/architecture/production-review.md)
-- [Learning roadmap](docs/learning/roadmap.md) ·
-  [Progress tracker](docs/learning/progress.md)
-- [Astro concepts glossary](docs/learning/astro-concepts.md)
-- [Island registry](docs/learning/islands.md) ·
-  [Performance evidence](docs/learning/performance.md)
-
-## Requirements
-
-- Node.js ≥ 22.12 (pnpm pinned via `packageManager`; corepack handles it)
-- For containers: Docker with Compose
-
-## License
-
-[MIT](LICENSE)
+The full curriculum and engineering docs are served as a browsable,
+searchable Starlight section at **/docs** - e.g.
+[Learning Roadmap](https://kefyusuf.github.io/astro-learning-lab/docs/learning/roadmap/)
+(live mirror). Sources live in `src/content/docs/`.
