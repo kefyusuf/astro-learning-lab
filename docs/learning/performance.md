@@ -1,7 +1,3 @@
----
-title: "Performance Evidence"
----
-
 # Performance - Evidence, Not Marketing
 
 > "Why is this Astro site fast?" - answered with measurements from the
@@ -46,10 +42,7 @@ title: "Performance Evidence"
   accessibility ≥ 0.95, best-practices ≥ 0.9, seo ≥ 0.9,
   `total-byte-weight` ≤ ~254 KB per page. Measured locally:
   performance score 96-100 across key pages.
-  Note: LHCI's `resource-summary` size assertions return undefined
-  values against the bundled newer Lighthouse - byte budgets therefore
-  live here and in the Vitest build-output tests, which are
-  deterministic; LHCI owns the lab-metric/category gates.
+  Note: the Starlight/Pagefind documentation experiment was later removed together with its size-budget adjustments.
 
 ## What would break the budget (watch list)
 

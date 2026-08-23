@@ -4,7 +4,7 @@ title: "ADR-006: Starlight documentation hub at /docs"
 
 ## Status
 
-Accepted
+Superseded - reverted shortly after adoption; the repo stays a plain Astro project without a documentation theme.
 
 ## Context
 

@@ -1,7 +1,3 @@
----
-title: "Learning Progress"
----
-
 # Learning Progress
 
 > One row per phase. Updated at the end of each phase with the learning checkpoint.

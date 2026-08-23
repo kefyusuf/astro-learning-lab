@@ -1,7 +1,3 @@
----
-title: "Architecture Overview"
----
-
 # Architecture Overview - astro-learning-lab
 
 > Status: Phase 0 (initial). This document is the architectural foundation of the project.

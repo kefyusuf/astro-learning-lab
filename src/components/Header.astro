@@ -2,8 +2,6 @@
 interface NavLink {
   href: string;
   label: string;
-  /** Forces a full page load - used at the Starlight layout boundary. */
-  reload?: boolean;
 }
 
 const links: NavLink[] = [
@@ -32,7 +30,6 @@ function isActive(href: string, current: string): boolean {
             <li>
               <a
                 href={link.href}
-                data-astro-reload={link.reload ? "" : undefined}
                 aria-current={
                   isActive(link.href, currentPath) ? "page" : undefined
                 }
@@ -44,18 +41,6 @@ function isActive(href: string, current: string): boolean {
         }
       </ul>
     </nav>
-    {
-      /* Full reload into the Starlight docs shell: two layout systems do
-        not share the client router. */
-    }
-    <a
-      class="docs-link"
-      href={"/docs/"}
-      data-astro-reload
-      aria-current={isActive("/docs/", currentPath) ? "page" : undefined}
-    >
-      Docs
-    </a>
   </div>
 </header>
 

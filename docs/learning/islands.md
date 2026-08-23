@@ -1,7 +1,3 @@
----
-title: "Island Registry & JS Budgets"
----
-
 # Island Registry
 
 > Every client island must have an entry here: why it needs JS, why Astro-only

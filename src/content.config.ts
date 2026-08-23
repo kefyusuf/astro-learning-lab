@@ -1,6 +1,4 @@
 import { defineCollection, reference } from "astro:content";
-import { docsLoader } from "@astrojs/starlight/loaders";
-import { docsSchema } from "@astrojs/starlight/schema";
 import { glob } from "astro/loaders";
 import { glossaryLoader } from "./loaders/glossary";
 import { z } from "astro/zod";
@@ -73,19 +71,10 @@ const glossary = defineCollection({
   }),
 });
 
-// Starlight's documentation collection (src/content/docs/docs/**).
-// Starlight's schema injects required frontmatter (title) plus its
-// extended fields; without it entries are silently dropped.
-const docs = defineCollection({
-  loader: docsLoader(),
-  schema: docsSchema(),
-});
-
 export const collections = {
   articles,
   guides,
   authors,
   topics,
   glossary,
-  docs,
 };

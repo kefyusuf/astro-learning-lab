@@ -91,7 +91,6 @@ Docker and Cloudflare are both kept working.
 ## Testing & quality gates
 
 - **Unit** (Vitest): pure logic, action schemas, security policies, build-output JS budgets - `src/lib` coverage ≥ 90% enforced
-- **Island units** (@testing-library/react): hydration components in isolation
 - **E2E** (Playwright): behavior-level specs on **Chromium, Firefox and WebKit** against the production preview - including a JavaScript-disabled progressive-enhancement test and axe-core accessibility scans (zero violations)
 - **Lighthouse CI**: performance ≥ 0.9, a11y ≥ 0.95, best-practices ≥ 0.9, seo ≥ 0.9 category gates
 - **Renovate** keeps dependencies fresh; Astro majors are reviewed manually on purpose
@@ -115,7 +114,13 @@ pnpm exec wrangler dev                            # local Workers runtime (no ac
 
 ## Documentation
 
-The full curriculum and engineering docs are served as a browsable,
-searchable Starlight section at **/docs** - e.g.
-[Learning Roadmap](src/content/docs/docs/learning/roadmap.md)
-(live mirror). Sources live in `src/content/docs/`.
+Project documentation lives as plain markdown in `docs/`:
+
+- [Learning roadmap](docs/learning/roadmap.md) · [Progress](docs/learning/progress.md)
+- [Astro concepts glossary](docs/learning/astro-concepts.md)
+- [Architecture overview](docs/architecture/overview.md) ·
+  [Security review](docs/architecture/security.md) ·
+  [Production review](docs/architecture/production-review.md)
+- [ADRs](docs/adr/) · [Deployment guides](docs/deployment/)
+- [Island registry](docs/learning/islands.md) ·
+  [Performance evidence](docs/learning/performance.md)

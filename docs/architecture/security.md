@@ -1,7 +1,3 @@
----
-title: "Security Review"
----
-
 # Security Review
 
 > Lightweight, OWASP-guided production review. No security theater:

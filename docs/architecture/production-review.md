@@ -1,7 +1,3 @@
----
-title: "Production Review"
----
-
 # Production Review
 
 > The pre-completion audit required by the curriculum. Every claim
