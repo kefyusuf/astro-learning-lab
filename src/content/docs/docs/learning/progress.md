@@ -39,7 +39,7 @@ astro:env schema · ClientRouter view transitions · astro:assets covers ·
 island component tests · Lighthouse CI gates · three-browser E2E ·
 coverage thresholds · Renovate · release-please · GitHub Pages static
 mirror (ADR-005) · custom glossary loader · prefetch · Sessions API ·
-rate limiting · i18n (/tr slice) · Starlight docs hub (/docs). Site LIVE at
+rate limiting · Starlight docs hub (/docs) - the /tr experiment was removed in the docs-first pivot. Site LIVE at
 kefyusuf.github.io/astro-learning-lab.
 
 ## Final state

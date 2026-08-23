@@ -4,8 +4,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import TopicCard from "../components/TopicCard.astro";
-import { isPublished, sortByPubDateDesc } from "../lib/content";
 import { withBase } from "../lib/base";
+import { isPublished, sortByPubDateDesc } from "../lib/content";
 import { fetchRepoStats } from "../lib/stats";
 
 const featured = sortByPubDateDesc(
@@ -22,9 +22,6 @@ const topics = (await getCollection("topics")).sort(
   (a, b) => a.data.order - b.data.order,
 );
 const articles = await getCollection("articles", isPublished);
-
-// Build-time fetch: paid once per build, embedded into the static HTML.
-// If the API is down, the fixture keeps the build green and the UI says so.
 const repoStats = await fetchRepoStats();
 
 const countForTopic = (topicId: string) =>
@@ -36,17 +33,21 @@ const countForTopic = (topicId: string) =>
 <BaseLayout
   title="astro-learning-lab - learn Astro by building"
   description="A developer knowledge platform built to learn Astro from zero - articles, guides and topics rendered to plain HTML."
-  alternates={[
-    { locale: "tr", url: new URL(withBase("/tr/"), Astro.site ?? Astro.url) },
-  ]}
 >
   <Hero
     title="Learn Astro by building a real content platform"
-    description="This site is the living output of a phase-based Astro curriculum. Every feature exists to exercise one Astro concept - rendering, islands, content collections, server logic - and nothing more."
+    description="A practical, phase-based curriculum. Every feature of this site exists to exercise one Astro concept - rendering, islands, content collections, server logic - and the docs explain every decision."
   >
-    <p class="cta">
-      <a class="button" href={withBase("/articles/")}>Browse articles</a>
-    </p>
+    <div class="cta-row">
+      <a
+        class="button primary"
+        href={withBase("/docs/learning/roadmap/")}
+        data-astro-reload
+      >
+        Start Learning
+      </a>
+      <a class="button ghost" href={withBase("/docs/")}>Read the Docs</a>
+    </div>
   </Hero>
 
   <section aria-labelledby="featured-heading">
@@ -80,6 +81,7 @@ const countForTopic = (topicId: string) =>
       }
     </div>
   </section>
+
   <section aria-labelledby="stats-heading">
     <h2 id="stats-heading">This site runs on Astro</h2>
     <div class="stats" data-source={repoStats.source}>
@@ -122,18 +124,39 @@ const countForTopic = (topicId: string) =>
     gap: 1rem;
   }
 
+  .cta-row {
+    margin-top: 1.75rem;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .button {
     display: inline-block;
-    background: var(--accent);
-    color: var(--accent-fg);
-    padding: 0.6rem 1.2rem;
+    padding: 0.65rem 1.4rem;
     border-radius: var(--radius);
     text-decoration: none;
     font-weight: 600;
   }
 
-  .cta {
-    margin-top: 1.5rem;
+  .button.primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  .button.primary:hover {
+    filter: brightness(1.08);
+  }
+
+  .button.ghost {
+    border: 1px solid var(--border);
+    color: var(--fg);
+    background: var(--card-bg);
+  }
+
+  .button.ghost:hover {
+    border-color: var(--accent);
   }
 
   .stats {

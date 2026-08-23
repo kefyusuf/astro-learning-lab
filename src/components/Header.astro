@@ -1,9 +1,5 @@
 ---
-import { getLocaleFromPath, uiFor } from "../lib/i18n";
 import { stripBase, withBase } from "../lib/base";
-
-const locale = getLocaleFromPath(stripBase(Astro.url.pathname));
-const t = uiFor(locale);
 
 interface NavLink {
   href: string;
@@ -13,31 +9,24 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
-  { href: withBase("/articles/"), label: t.nav.articles },
-  { href: withBase("/guides/"), label: t.nav.guides },
-  { href: withBase("/topics/"), label: t.nav.topics },
-  { href: withBase("/glossary/"), label: t.nav.glossary },
-  { href: withBase("/about/"), label: t.nav.about },
-  // Full reload into the Starlight docs shell: two layout systems do
-  // not share the client router.
-  { href: withBase("/docs/"), label: "Docs", reload: true },
+  { href: withBase("/articles/"), label: "Articles" },
+  { href: withBase("/guides/"), label: "Guides" },
+  { href: withBase("/topics/"), label: "Topics" },
+  { href: withBase("/glossary/"), label: "Glossary" },
+  { href: withBase("/about/"), label: "About" },
 ];
 
-// Locale-prefixed paths (e.g. /tr/articles/) keep the current page's
-// section when switching language; the home page maps to /tr/.
 const currentPath = stripBase(Astro.url.pathname);
 
 function isActive(href: string, current: string): boolean {
-  const normalized =
-    locale === "tr" ? current.replace(/^\/tr/, "") || "/" : current;
-  if (href === "/") return normalized === "/";
-  return normalized === href || normalized.startsWith(href);
+  if (href === "/") return current === "/";
+  return current === href || current.startsWith(href);
 }
 ---
 
 <header class="site-header">
   <div class="inner">
-    <a class="brand" href={withBase("/")}>astro<span>{t.brandSuffix}</span></a>
+    <a class="brand" href={withBase("/")}>astro<span>-learning-lab</span></a>
     <nav aria-label="Main">
       <ul>
         {
@@ -57,29 +46,20 @@ function isActive(href: string, current: string): boolean {
         }
       </ul>
     </nav>
-    <nav aria-label="Language">
-      {
-        locale === "tr" ? (
-          <a
-            class="lang"
-            href={withBase(currentPath.replace(/^\/tr/, "") || "/")}
-            lang="en"
-            hreflang="en"
-          >
-            EN
-          </a>
-        ) : (
-          <a
-            class="lang"
-            href={withBase(`/tr${currentPath === "/" ? "/" : currentPath}`)}
-            lang="tr"
-            hreflang="tr"
-          >
-            TR
-          </a>
-        )
-      }
-    </nav>
+    {
+      /* Full reload into the Starlight docs shell: two layout systems do
+        not share the client router. */
+    }
+    <a
+      class="docs-link"
+      href={withBase("/docs/")}
+      data-astro-reload
+      aria-current={isActive(withBase("/docs/"), currentPath)
+        ? "page"
+        : undefined}
+    >
+      Docs
+    </a>
   </div>
 </header>
 
@@ -119,7 +99,8 @@ function isActive(href: string, current: string): boolean {
     list-style: none;
   }
 
-  nav a {
+  nav a,
+  .docs-link {
     color: var(--fg-muted);
     text-decoration: none;
     font-size: 0.95rem;
@@ -127,7 +108,9 @@ function isActive(href: string, current: string): boolean {
   }
 
   nav a:hover,
-  nav a[aria-current="page"] {
+  nav a[aria-current="page"],
+  .docs-link:hover,
+  .docs-link[aria-current="page"] {
     color: var(--accent);
   }
 
@@ -135,19 +118,11 @@ function isActive(href: string, current: string): boolean {
     font-weight: 600;
   }
 
-  .lang {
+  .docs-link {
     font-weight: 600;
-    font-size: 0.85rem;
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 0.2rem 0.6rem;
-    text-decoration: none;
-    color: var(--fg-muted);
-  }
-
-  .lang:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    padding: 0.2rem 0.7rem;
   }
 
   @media (max-width: 40rem) {
