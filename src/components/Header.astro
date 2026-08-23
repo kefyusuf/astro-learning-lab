@@ -1,6 +1,4 @@
 ---
-import { stripBase, withBase } from "../lib/base";
-
 interface NavLink {
   href: string;
   label: string;
@@ -9,14 +7,14 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
-  { href: withBase("/articles/"), label: "Articles" },
-  { href: withBase("/guides/"), label: "Guides" },
-  { href: withBase("/topics/"), label: "Topics" },
-  { href: withBase("/glossary/"), label: "Glossary" },
-  { href: withBase("/about/"), label: "About" },
+  { href: "/articles/", label: "Articles" },
+  { href: "/guides/", label: "Guides" },
+  { href: "/topics/", label: "Topics" },
+  { href: "/glossary/", label: "Glossary" },
+  { href: "/about/", label: "About" },
 ];
 
-const currentPath = stripBase(Astro.url.pathname);
+const currentPath = Astro.url.pathname;
 
 function isActive(href: string, current: string): boolean {
   if (href === "/") return current === "/";
@@ -26,7 +24,7 @@ function isActive(href: string, current: string): boolean {
 
 <header class="site-header">
   <div class="inner">
-    <a class="brand" href={withBase("/")}>astro<span>-learning-lab</span></a>
+    <a class="brand" href={"/"}>astro<span>-learning-lab</span></a>
     <nav aria-label="Main">
       <ul>
         {
@@ -52,11 +50,9 @@ function isActive(href: string, current: string): boolean {
     }
     <a
       class="docs-link"
-      href={withBase("/docs/")}
+      href={"/docs/"}
       data-astro-reload
-      aria-current={isActive(withBase("/docs/"), currentPath)
-        ? "page"
-        : undefined}
+      aria-current={isActive("/docs/", currentPath) ? "page" : undefined}
     >
       Docs
     </a>

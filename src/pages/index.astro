@@ -4,7 +4,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import TopicCard from "../components/TopicCard.astro";
-import { withBase } from "../lib/base";
 import { isPublished, sortByPubDateDesc } from "../lib/content";
 import { fetchRepoStats } from "../lib/stats";
 
@@ -41,12 +40,12 @@ const countForTopic = (topicId: string) =>
     <div class="cta-row">
       <a
         class="button primary"
-        href={withBase("/docs/learning/roadmap/")}
+        href={"/docs/learning/roadmap/"}
         data-astro-reload
       >
         Start Learning
       </a>
-      <a class="button ghost" href={withBase("/docs/")}>Read the Docs</a>
+      <a class="button ghost" href={"/docs/"}>Read the Docs</a>
     </div>
   </Hero>
 

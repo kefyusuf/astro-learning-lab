@@ -4,7 +4,6 @@ import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import SEO from "../components/SEO.astro";
-import { stripBase, withBase } from "../lib/base";
 
 interface Props {
   title: string;
@@ -21,16 +20,14 @@ interface Props {
 const {
   title,
   description,
-  // Request paths include the deploy base; canonicals are built from
-  // base-less paths (withBase/stripBase in src/lib/base.ts).
-  canonicalPath = stripBase(Astro.url.pathname),
+  canonicalPath = Astro.url.pathname,
   ogType,
   publishedTime,
   updatedTime,
   alternates,
 } = Astro.props;
 
-const canonicalURL = new URL(withBase(canonicalPath), Astro.site ?? Astro.url);
+const canonicalURL = new URL(canonicalPath, Astro.site ?? Astro.url);
 ---
 
 <html lang="en">

@@ -1,7 +1,6 @@
 import rss from "@astrojs/rss";
 import type { APIContext, APIRoute } from "astro";
 import { getCollection } from "astro:content";
-import { withBase } from "../lib/base";
 import { isPublished, sortByPubDateDesc } from "../lib/content";
 
 export const prerender = true;
@@ -20,7 +19,7 @@ export const GET: APIRoute = async (context: APIContext) => {
       title: article.data.title,
       description: article.data.description,
       pubDate: article.data.pubDate,
-      link: withBase(`/articles/${article.id}/`),
+      link: `/articles/${article.id}/`,
     })),
     customData: "<language>en-us</language>",
   });

@@ -2,7 +2,6 @@
 import { getCollection, getEntry, render } from "astro:content";
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
 import FavoriteButton from "../../components/FavoriteButton.astro";
-import { withBase } from "../../lib/base";
 import { isPublished, readingTime } from "../../lib/content";
 
 export async function getStaticPaths() {
@@ -18,7 +17,7 @@ const entry = (await getCollection("articles")).find(
 );
 
 if (!entry || !isPublished(entry)) {
-  return Astro.redirect(withBase("/404"));
+  return Astro.redirect("/404");
 }
 
 const { Content } = await render(entry);
@@ -51,7 +50,7 @@ const minutes = readingTime(entry.body ?? "");
         <ul>
           {entry.data.topics.map((ref) => (
             <li>
-              <a href={withBase(`/topics/${ref.id}/`)}>{ref.id}</a>
+              <a href={`/topics/${ref.id}/`}>{ref.id}</a>
             </li>
           ))}
         </ul>

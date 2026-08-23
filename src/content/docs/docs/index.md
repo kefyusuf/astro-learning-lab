@@ -25,9 +25,8 @@ from the same Astro project that renders the site itself.
 
 ## Decisions & operations
 
-- [Decisions (ADR)](/docs/adr/001-static-first-rendering/) - five
+- [Decisions (ADR)](/docs/adr/001-static-first-rendering/) - six
   architecture decision records
 - [Security Review](/docs/architecture/security/) ·
   [Production Review](/docs/architecture/production-review/)
-- Deployment: [Cloudflare Workers](/docs/deployment/cloudflare/) ·
-  [GitHub Pages](/docs/deployment/github-pages/)
+- Deployment: [Cloudflare Workers](/docs/deployment/cloudflare/)

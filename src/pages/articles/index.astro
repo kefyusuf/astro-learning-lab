@@ -7,7 +7,6 @@ import ArticleSearch from "../../components/islands/ArticleSearch";
 import type { SearchableArticle } from "../../components/islands/ArticleSearch";
 import { isPublished, sortByPubDateDesc } from "../../lib/content";
 import { paginate } from "../../lib/paginate";
-import { withBase } from "../../lib/base";
 
 const allArticles = await getCollection("articles", isPublished);
 const sorted = sortByPubDateDesc(allArticles);
@@ -49,7 +48,7 @@ const searchable: SearchableArticle[] = sorted.map((article) => ({
   </section>
 
   <Pagination
-    baseUrl={withBase("/articles")}
+    baseUrl={"/articles"}
     pageNumber={page.pageNumber}
     totalPages={page.totalPages}
   />

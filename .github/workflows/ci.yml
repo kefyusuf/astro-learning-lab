@@ -51,9 +51,6 @@ jobs:
       - name: E2E tests
         run: pnpm test:e2e
 
-      - name: Validate GitHub Pages profile builds
-        run: node scripts/build-pages.mjs
-
   lighthouse:
     runs-on: ubuntu-latest
     timeout-minutes: 15

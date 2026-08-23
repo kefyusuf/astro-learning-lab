@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
-import { withBase } from "../../lib/base";
 import { isPublished, sortByPubDateDesc } from "../../lib/content";
 
 export async function getStaticPaths() {
@@ -18,7 +17,7 @@ const topic = (await getCollection("topics")).find(
 );
 
 if (!topic) {
-  return Astro.redirect(withBase("/404"));
+  return Astro.redirect("/404");
 }
 
 const topicArticles = sortByPubDateDesc(

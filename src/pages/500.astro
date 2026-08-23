@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { withBase } from "../lib/base";
 
 /**
  * Served by the server runtime when a request fails with an uncaught
@@ -24,7 +23,7 @@ export const prerender = false;
       request id - if the problem persists, please
       <a href="/feedback/">tell us what you were doing</a>.
     </p>
-    <p><a href={withBase("/")}>Back to the homepage</a></p>
+    <p><a href={"/"}>Back to the homepage</a></p>
   </div>
 </BaseLayout>
 

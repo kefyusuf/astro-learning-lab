@@ -30,7 +30,7 @@ function docsSidebarItems(directory) {
 }
 import starlight from "@astrojs/starlight";
 
-// Deployment target selects the adapter (ADR-004, ADR-005):
+// Deployment target selects the adapter (ADR-004, ADR-006):
 //   unset / "node"       → Node standalone (local, CI, Docker)
 //   "cloudflare"         → Cloudflare Workers + Static Assets
 // GitHub Pages uses the same static output with no adapter via

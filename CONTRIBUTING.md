@@ -14,7 +14,7 @@ as code changes.
    tested (coverage thresholds enforced), user-visible behavior gets
    Playwright specs. Budgets (`tests/unit/js-budget.test.ts`) must stay
    green; new islands must register their cost in
-   [Island Registry](https://kefyusuf.github.io/astro-learning-lab/docs/learning/islands/).
+   [Island Registry](src/content/docs/docs/learning/islands.md).
 3. **Conventional Commits** - small, coherent commits; the message
    explains _why_.
 4. **Docs travel with code** - a feature that teaches a concept updates

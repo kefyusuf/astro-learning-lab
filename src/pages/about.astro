@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AboutLiveStatus from "../components/AboutLiveStatus.astro";
+import LiveServerInfo from "../components/LiveServerInfo.astro";
 
 const pageTitle = "About · astro-learning-lab";
 const description =
@@ -16,8 +16,11 @@ const description =
       a small number of concepts with tests and documentation.
     </p>
 
-    <!-- Swappable mount: the Pages build replaces this component with a static stub (ADR-005). -->
-    <AboutLiveStatus />
+    <!--
+      Server island: this page is prerendered and cached, but this
+      fragment renders on the server per request - no client JS.
+    -->
+    <LiveServerInfo server:defer />
 
     <h2>Principles</h2>
     <ul>
