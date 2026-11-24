@@ -20,7 +20,7 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.2.4",
+    "astro": "^7.4.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -28,7 +28,7 @@
     "@astrojs/check": "^0.9.10",
     "@astrojs/cloudflare": "^14.2.3",
     "@astrojs/mdx": "^7.0.7",
-    "@astrojs/node": "^11.1.4",
+    "@astrojs/node": "^11.1.12",
     "@astrojs/react": "^6.0.4",
     "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
@@ -43,7 +43,7 @@
     "globals": "^17.11.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.5",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.67.0",
     "vitest": "^4.1.11",
